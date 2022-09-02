@@ -18,6 +18,7 @@ jobs:
           user: REALalphas
           template: classic
           base: header
+          filename: github-metrics-head.svg
           base_indepth: yes
           config_octicon: yes
           config_timezone: Europe/Moscow
