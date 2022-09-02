@@ -1,5 +1,5 @@
 # Visit https://github.com/lowlighter/metrics#-documentation for full reference
-name: Metrics (Header+Languages)
+name: Metrics (Header+Languages+WakaTime)
 on:
   schedule: [{cron: "0 * * * *"}]
   # Lines below let you run workflow manually and on each commit
@@ -34,3 +34,12 @@ jobs:
           plugin_languages_recent_load: 300
           plugin_languages_sections: most-used
           plugin_languages_threshold: 2
+          plugin_wakatime: yes
+          plugin_wakatime_days: 7
+          plugin_wakatime_limit: 5
+          plugin_wakatime_repositories_visibility: public
+          plugin_wakatime_sections: time, projects, languages, editors, os
+          plugin_wakatime_url: https://wakatime.com
+          plugin_wakatime_user: realalphas
+          plugin_wakatime_token: ${{ secrets.WAKATIME_APIKEY }}
+
