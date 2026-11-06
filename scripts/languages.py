@@ -89,7 +89,7 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:600;}}</style>',
+        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}</style>',
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
@@ -107,25 +107,32 @@ def render_card(rows, total):
         percentage = 100 * count / total
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         number_font = "Unbounded"
-        advance = 0
-        left, right = float("inf"), float("-inf")
-        bottom = float("inf")
-        top = float("-inf")
-        for character in label:
-            glyph = metrics["glyphs"][character]
-            x_min, y_min, x_max, y_max = glyph["bounds"]
-            left = min(left, advance + x_min)
-            right = max(right, advance + x_max)
-            bottom = min(bottom, y_min)
-            top = max(top, y_max)
-            advance += glyph["advance"]
-        if span == 2:
-            scale = (tile_height - 40) / (top - bottom)
-            title_width = len(name) * 24 * 0.65
-            available_width = max(24, width - 40 - title_width - 16)
-            scale = min(scale, available_width / (right - left))
-        else:
-            scale = (width - 40) / (right - left)
+        number_weight = 600
+        title_width = sum(metrics["titleWidths"].get(c, 0.7) for c in name) * 24
+        available_width = max(1, width - 40 - title_width - 16)
+        for candidate in range(600, 199, -25):
+            glyphs = metrics["weights"][str(candidate)]
+            advance = 0
+            left, right = float("inf"), float("-inf")
+            bottom, top = float("inf"), float("-inf")
+            for character in label:
+                glyph = glyphs[character]
+                x_min, y_min, x_max, y_max = glyph["bounds"]
+                left = min(left, advance + x_min)
+                right = max(right, advance + x_max)
+                bottom = min(bottom, y_min)
+                top = max(top, y_max)
+                advance += glyph["advance"]
+            number_weight = candidate
+            if span == 2:
+                # Visible glyph height always fills the tile's full inner height.
+                # Only the actual font weight changes to try to clear the title.
+                scale = (tile_height - 40) / (top - bottom)
+                if (right - left) * scale <= available_width:
+                    break
+            else:
+                scale = (width - 40) / (right - left)
+                break
         number_size = scale * metrics["unitsPerEm"]
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 20 + bottom * scale
@@ -134,7 +141,7 @@ def render_card(rows, total):
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
             f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" font-size="{number_size:.3f}" font-weight="600" fill="#ffffff" fill-opacity="0.6">{label}</text>',
+            f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
