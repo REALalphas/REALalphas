@@ -89,10 +89,12 @@ def render_card(rows, total):
         y = 88 + row * row_step
         width = cell * span + gap * (span - 1)
         color = COLORS.get(name, "#999999")
+        percentage = 100 * count / total
+        label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         svg.extend([
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.18"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">{100 * count / total:.1f}</text>',
+            f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">{label}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
