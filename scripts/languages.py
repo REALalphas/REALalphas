@@ -130,8 +130,12 @@ def render_card(rows, total):
                 bottom = min(bottom, y_min)
                 top = max(top, y_max)
                 advance += glyph["advance"]
-            scale = target_height / (top - bottom)
-            fits = (right - left) * scale <= available_width if span == 2 else True
+            if span == 2:
+                scale = target_height / (top - bottom)
+                fits = (right - left) * scale <= available_width
+            else:
+                scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom))
+                fits = True
             fitted = (weight, candidate, left, right, bottom, top, scale)
             if fits:
                 break
