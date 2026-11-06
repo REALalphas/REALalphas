@@ -48,6 +48,7 @@ def main():
         '<title id="title">Languages</title>',
         '<desc id="desc">Language shares by code size, excluding forks, Bash, Shell, Batch and Docker files.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
+        f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
         '<text x="40" y="50" font-size="24" font-weight="500">Languages</text>',
     ]
