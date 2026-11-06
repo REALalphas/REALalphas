@@ -10,4 +10,4 @@ The card publishes aggregate language shares by code bytes. Repository names and
 
 The workflow uses its separate built-in GitHub token to commit the card. Repository Actions settings must allow write permissions, and branch rules must permit the bot to push.
 
-Tiles follow descending language share in reading order, with Other last. The first and third tiles span two columns; the rest are square.
+Tiles follow descending language share in reading order, with Other last. The grid has four columns. Tile spans repeat as wide, square, square, square; wide tiles span two columns and every tile is one cell tall. Values omit the percent sign, which appears in the heading.

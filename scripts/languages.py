@@ -60,16 +60,16 @@ COLORS = {
 
 
 def render_card(rows, total):
-    # Keep descending language order; use wide, square, wide, then square tiles.
-    cell = 232
+    # Keep reading order on four columns: wide, square, square, square, repeat.
+    cell = 171
     gap = 12
     tile_height = cell
     row_step = tile_height + gap
     placements = []
     row = column = 0
     for index, (name, count) in enumerate(rows):
-        span = 2 if index in (0, 2) else 1
-        if column + span > 3:
+        span = 2 if index % 4 == 0 else 1
+        if column + span > 4:
             row += 1
             column = 0
         placements.append((name, count, row, column, span))
@@ -77,12 +77,12 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        '<title id="title">Languages</title>',
+        '<title id="title">Languages, %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
         f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
-        '<text x="40" y="58" font-size="24" font-weight="500">Languages</text>',
+        '<text x="40" y="58" font-size="24" font-weight="500">Languages, %</text>',
     ]
     for name, count, row, column, span in placements:
         x = 40 + column * (cell + gap)
@@ -92,7 +92,7 @@ def render_card(rows, total):
         svg.extend([
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.18"/>',
             f'<text x="{x + 24}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{x + width - 24}" y="{y + tile_height - 24}" text-anchor="end" font-size="64" font-weight="700" fill="#ffffff" fill-opacity="0.82">{count / total:.1%}</text>',
+            f'<text x="{x + width - 24}" y="{y + tile_height - 24}" text-anchor="end" font-size="64" font-weight="700" fill="#ffffff" fill-opacity="0.55">{100 * count / total:.1f}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
