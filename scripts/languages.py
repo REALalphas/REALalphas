@@ -109,7 +109,7 @@ def render_card(rows, total):
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         number_font = "Pliant"
         title_width = sum(title_metrics.get(c, 0.7) for c in name) * 24
-        available_width = max(1, width - 40 - title_width - 16)
+        available_width = max(1, width - 40 - title_width - 2)
         target_height = tile_height - 40
         base_glyphs = font_metrics["variants"]["600"]["125"]
         base_bottom = min(base_glyphs[c]["bounds"][1] for c in label)
@@ -131,7 +131,7 @@ def render_card(rows, total):
                     top = max(top, y_max)
                     advance += glyph["advance"]
                 if span == 2:
-                    scale = number_size / font_metrics["unitsPerEm"]
+                    scale = target_height / (top - bottom)
                     fits = (right - left) * scale <= available_width
                 else:
                     scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom))
@@ -145,8 +145,7 @@ def render_card(rows, total):
             raise RuntimeError("Pliant cannot fit the number at its maximum tile height")
         number_weight, number_width, left, right, bottom, top, scale = fitted
         units = font_metrics["unitsPerEm"]
-        if span != 2:
-            number_size = scale * units
+        number_size = scale * units
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 20 + bottom * scale
         width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%"
