@@ -90,7 +90,7 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        f'<style>@font-face{{font-family:Pliant;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:100 900;font-stretch:100% 125%;}}</style>',
+        f'<style>@font-face{{font-family:Pliant;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;font-stretch:100% 125%;}}</style>',
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
@@ -112,7 +112,12 @@ def render_card(rows, total):
         number_width = 100
         title_width = sum(title_metrics.get(c, 0.7) for c in name) * 24
         available_width = max(1, width - 40 - title_width - 16)
-        candidates = sorted(map(int, font_metrics["widths"]), reverse=True)
+        # Prefer the greatest allowed weight; width follows its proportional mapping.
+        candidates = sorted(
+            map(int, font_metrics["widths"]),
+            key=lambda width: font_metrics["weights"][str(width)],
+            reverse=True,
+        )
         for candidate in candidates:
             glyphs = font_metrics["widths"][str(candidate)]
             advance = 0
