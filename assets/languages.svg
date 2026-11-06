@@ -12,11 +12,11 @@
 <text x="40" y="136" font-size="18">JavaScript</text>
 <text x="760" y="136" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">22.1%</text>
 <rect x="40" y="146" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="146" width="158.90" height="6" rx="3" fill="#796699"/>
+<rect x="40" y="146" width="158.89" height="6" rx="3" fill="#796699"/>
 <text x="40" y="184" font-size="18">Rust</text>
 <text x="760" y="184" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.8%</text>
 <rect x="40" y="194" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="194" width="128.15" height="6" rx="3" fill="#796699"/>
+<rect x="40" y="194" width="128.14" height="6" rx="3" fill="#796699"/>
 <text x="40" y="232" font-size="18">Makefile</text>
 <text x="760" y="232" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.7%</text>
 <rect x="40" y="242" width="720" height="6" rx="3" fill="#333333"/>
@@ -40,6 +40,6 @@
 <text x="40" y="472" font-size="18">Other</text>
 <text x="760" y="472" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">0.2%</text>
 <rect x="40" y="482" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="482" width="1.62" height="6" rx="3" fill="#796699"/>
+<rect x="40" y="482" width="1.65" height="6" rx="3" fill="#796699"/>
 </g>
 </svg>
