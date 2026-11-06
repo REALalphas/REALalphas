@@ -84,15 +84,17 @@ def render_card(rows, total):
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
         '<text x="40" y="58" font-size="24" font-weight="500">Languages %</text>',
     ]
-    for name, count, row, column, span in placements:
+    for index, (name, count, row, column, span) in enumerate(placements):
         x = 40 + column * (cell + gap)
         y = 88 + row * row_step
         width = cell * span + gap * (span - 1)
         color = COLORS.get(name, "#999999")
+        bright = "#" + "".join(f"{round(int(color[i:i + 2], 16) * 0.8 + 255 * 0.2):02x}" for i in (1, 3, 5))
         percentage = 100 * count / total
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         svg.extend([
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.26"/>',
+            f'<defs><radialGradient id="language-{index}" cx="150%" cy="-50%" r="160%"><stop offset="0" stop-color="{bright}" stop-opacity="0.65"/><stop offset="1" stop-color="{color}" stop-opacity="0.26"/></radialGradient></defs>',
+            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
             f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
             f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="60" font-weight="700" fill="#999999" fill-opacity="0.6">{label}</text>',
