@@ -37,7 +37,7 @@ def main():
         raise RuntimeError("No language data; keeping the existing card")
     other = sum(languages.pop(name, 0) for name in (
         "Makefile", "CMake", "Docker", "Dockerfile", "Bash", "Shell",
-        "Batch", "Batchfile", "PowerShell", "Just",
+        "Batch", "Batchfile", "PowerShell", "Just", "DTrace",
     ))
     rows = languages.most_common(8)
     remaining = other + sum(languages.values()) - sum(value for _, value in rows)
@@ -60,27 +60,21 @@ COLORS = {
 
 
 def render_card(rows, total):
-    # Three-column grid: larger languages span two cells, smaller ones stay square.
+    # Keep descending language order; use wide, square, wide, then square tiles.
     cell = 232
     gap = 12
     tile_height = cell
     row_step = tile_height + gap
     placements = []
-    occupied = []
-    for name, count in rows:
-        span = 2 if count / total >= 0.1 else 1
-        row = 0
-        while True:
-            if row == len(occupied):
-                occupied.append([False] * 3)
-            column = next((col for col in range(4 - span)
-                           if not any(occupied[row][col:col + span])), None)
-            if column is not None:
-                occupied[row][column:column + span] = [True] * span
-                placements.append((name, count, row, column, span))
-                break
+    row = column = 0
+    for index, (name, count) in enumerate(rows):
+        span = 2 if index in (0, 2) else 1
+        if column + span > 3:
             row += 1
-    height = 128 + len(occupied) * row_step - gap
+            column = 0
+        placements.append((name, count, row, column, span))
+        column += span
+    height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">Languages</title>',
@@ -97,8 +91,8 @@ def render_card(rows, total):
         color = COLORS.get(name, "#999999")
         svg.extend([
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.18"/>',
-            f'<text x="{x + 20}" y="{y + 34}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="64" font-weight="700" fill="#ffffff" fill-opacity="0.82">{count / total:.1%}</text>',
+            f'<text x="{x + 24}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
+            f'<text x="{x + width - 24}" y="{y + tile_height - 24}" text-anchor="end" font-size="64" font-weight="700" fill="#ffffff" fill-opacity="0.82">{count / total:.1%}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
