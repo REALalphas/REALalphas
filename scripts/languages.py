@@ -119,16 +119,24 @@ def render_card(rows, total):
             bottom = min(bottom, y_min)
             top = max(top, y_max)
             advance += glyph["advance"]
-        scale = min((width - 40) / (right - left), (tile_height - 92) / (top - bottom) if span == 2 else float("inf"))
+        if span == 2:
+            scale = (tile_height - 40) / (top - bottom)
+            title_width = len(name) * 24 * 0.65
+            available_width = max(24, width - 40 - title_width - 16)
+            natural_width = (right - left) * scale
+            horizontal_scale = min(1, available_width / natural_width)
+        else:
+            scale = (width - 40) / (right - left)
+            horizontal_scale = 1
         number_size = scale * metrics["unitsPerEm"]
-        number_x = x + width - 20 - right * scale
+        number_x = (x + width - 20) / horizontal_scale - right * scale
         number_y = y + tile_height - 20 + bottom * scale
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
             f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" font-size="{number_size:.3f}" font-weight="600" fill="#ffffff" fill-opacity="0.6">{label}</text>',
+            f'<text transform="scale({horizontal_scale:.6f} 1)" x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" font-size="{number_size:.3f}" font-weight="600" fill="#ffffff" fill-opacity="0.6">{label}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
