@@ -110,7 +110,7 @@ def render_card(rows, total):
         number_font = "Pliant"
         title_width = sum(title_metrics.get(c, 0.7) for c in name) * 24
         available_width = max(1, width - 40 - title_width - 16)
-        target_height = tile_height - 64
+        target_height = tile_height - 40
         base_glyphs = font_metrics["variants"]["600"]["125"]
         base_bottom = min(base_glyphs[c]["bounds"][1] for c in label)
         base_top = max(base_glyphs[c]["bounds"][3] for c in label)
