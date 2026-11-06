@@ -110,16 +110,18 @@ def render_card(rows, total):
         advance = 0
         left, right = float("inf"), float("-inf")
         bottom = float("inf")
+        top = float("-inf")
         for character in label:
             glyph = metrics["glyphs"][character]
-            x_min, y_min, x_max, _ = glyph["bounds"]
+            x_min, y_min, x_max, y_max = glyph["bounds"]
             left = min(left, advance + x_min)
             right = max(right, advance + x_max)
             bottom = min(bottom, y_min)
+            top = max(top, y_max)
             advance += glyph["advance"]
-        scale = (width - 40) / (right - left)
+        scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom) if span == 2 else float("inf"))
         number_size = scale * metrics["unitsPerEm"]
-        number_x = x + 20 - left * scale
+        number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 24 + bottom * scale
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
