@@ -69,12 +69,10 @@ def saturate(color):
 
 
 def render_card(rows, total):
-    font_path = Path(__file__).resolve().parent.parent / "assets/fonts/Unbounded-digits.woff"
+    font_path = Path(__file__).resolve().parent.parent / "assets/fonts/Pliant-digits.woff"
     font_data = base64.b64encode(font_path.read_bytes()).decode("ascii")
-    metrics = json.loads(font_path.with_name("Unbounded-digits-metrics.json").read_text())
-    flex_path = font_path.with_name("RobotoFlex-digits.woff")
-    flex_data = base64.b64encode(flex_path.read_bytes()).decode("ascii")
-    flex_metrics = json.loads(flex_path.with_name("RobotoFlex-digits-metrics.json").read_text())
+    font_metrics = json.loads(font_path.with_name("Pliant-digits-metrics.json").read_text())
+    title_metrics = json.loads(font_path.with_name("title-metrics.json").read_text())
     # Keep reading order on four columns: wide, square, square, square, repeat.
     cell = 171
     gap = 12
@@ -92,7 +90,7 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}@font-face{{font-family:RobotoFlex;src:url(data:font/woff;base64,{flex_data}) format("woff");font-weight:200 600;font-stretch:25% 151%;}}</style>',
+        f'<style>@font-face{{font-family:Pliant;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:100 900;font-stretch:100% 125%;}}</style>',
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
@@ -109,14 +107,14 @@ def render_card(rows, total):
         color, bright = saturate(color), saturate(bright)
         percentage = 100 * count / total
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
-        number_font = "RobotoFlex" if span == 2 else "Unbounded"
+        number_font = "Pliant"
         number_weight = 600
         number_width = 100
-        title_width = sum(metrics["titleWidths"].get(c, 0.7) for c in name) * 24
+        title_width = sum(title_metrics.get(c, 0.7) for c in name) * 24
         available_width = max(1, width - 40 - title_width - 16)
-        candidates = sorted(map(int, flex_metrics["widths"]), reverse=True) if span == 2 else [100]
+        candidates = sorted(map(int, font_metrics["widths"]), reverse=True)
         for candidate in candidates:
-            glyphs = flex_metrics["widths"][str(candidate)] if span == 2 else metrics["glyphs"]
+            glyphs = font_metrics["widths"][str(candidate)]
             advance = 0
             left, right = float("inf"), float("-inf")
             bottom, top = float("inf"), float("-inf")
@@ -136,15 +134,12 @@ def render_card(rows, total):
             else:
                 scale = (width - 40) / (right - left)
                 break
-        if span == 2 and (right - left) * scale > available_width:
-            raise RuntimeError("The font width axis cannot fit the number beside the language title")
-        if span == 2:
-            number_weight = round(200 + (number_width - 25) / (151 - 25) * 400)
-        units = flex_metrics["unitsPerEm"] if span == 2 else metrics["unitsPerEm"]
+        number_weight = font_metrics["weights"][str(number_width)]
+        units = font_metrics["unitsPerEm"]
         number_size = scale * units
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 20 + bottom * scale
-        width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%" if span == 2 else ""
+        width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%"
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
