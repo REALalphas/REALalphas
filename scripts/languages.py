@@ -72,6 +72,9 @@ def render_card(rows, total):
     font_path = Path(__file__).resolve().parent.parent / "assets/fonts/Unbounded-digits.woff"
     font_data = base64.b64encode(font_path.read_bytes()).decode("ascii")
     metrics = json.loads(font_path.with_name("Unbounded-digits-metrics.json").read_text())
+    flex_path = font_path.with_name("RobotoFlex-digits.woff")
+    flex_data = base64.b64encode(flex_path.read_bytes()).decode("ascii")
+    flex_metrics = json.loads(flex_path.with_name("RobotoFlex-digits-metrics.json").read_text())
     # Keep reading order on four columns: wide, square, square, square, repeat.
     cell = 171
     gap = 12
@@ -89,7 +92,7 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}</style>',
+        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}@font-face{{font-family:RobotoFlex;src:url(data:font/woff;base64,{flex_data}) format("woff");font-weight:600;font-stretch:25% 151%;}}</style>',
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
@@ -106,12 +109,14 @@ def render_card(rows, total):
         color, bright = saturate(color), saturate(bright)
         percentage = 100 * count / total
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
-        number_font = "Unbounded"
+        number_font = "RobotoFlex" if span == 2 else "Unbounded"
         number_weight = 600
+        number_width = 100
         title_width = sum(metrics["titleWidths"].get(c, 0.7) for c in name) * 24
         available_width = max(1, width - 40 - title_width - 16)
-        for candidate in range(600, 199, -25):
-            glyphs = metrics["weights"][str(candidate)]
+        candidates = sorted(map(int, flex_metrics["widths"]), reverse=True) if span == 2 else [100]
+        for candidate in candidates:
+            glyphs = flex_metrics["widths"][str(candidate)] if span == 2 else metrics["glyphs"]
             advance = 0
             left, right = float("inf"), float("-inf")
             bottom, top = float("inf"), float("-inf")
@@ -123,25 +128,27 @@ def render_card(rows, total):
                 bottom = min(bottom, y_min)
                 top = max(top, y_max)
                 advance += glyph["advance"]
-            number_weight = candidate
+            number_width = candidate
             if span == 2:
-                # Visible glyph height always fills the tile's full inner height.
-                # Only the actual font weight changes to try to clear the title.
                 scale = (tile_height - 40) / (top - bottom)
                 if (right - left) * scale <= available_width:
                     break
             else:
                 scale = (width - 40) / (right - left)
                 break
-        number_size = scale * metrics["unitsPerEm"]
+        if span == 2 and (right - left) * scale > available_width:
+            raise RuntimeError("The font width axis cannot fit the number beside the language title")
+        units = flex_metrics["unitsPerEm"] if span == 2 else metrics["unitsPerEm"]
+        number_size = scale * units
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 20 + bottom * scale
+        width_style = f"font-variation-settings: 'wdth' {number_width};font-stretch:{number_width}%" if span == 2 else ""
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
             f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
+            f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
