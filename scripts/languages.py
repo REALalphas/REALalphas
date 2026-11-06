@@ -138,6 +138,8 @@ def render_card(rows, total):
                 break
         if span == 2 and (right - left) * scale > available_width:
             raise RuntimeError("The font width axis cannot fit the number beside the language title")
+        if span == 2:
+            number_weight = round(200 + (number_width - 25) / (151 - 25) * 400)
         units = flex_metrics["unitsPerEm"] if span == 2 else metrics["unitsPerEm"]
         number_size = scale * units
         number_x = x + width - 20 - right * scale

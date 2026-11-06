@@ -10,7 +10,7 @@
 <rect x="40" y="88" width="354" height="171" rx="16" fill="url(#language-0)"/>
 <rect x="40.75" y="88.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">TypeScript</text>
-<text x="196.301" y="237.113" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 94;font-stretch:94%" font-size="178.954" font-weight="600" fill="#ffffff" fill-opacity="0.6">25</text>
+<text x="196.301" y="237.113" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 94;font-stretch:94%" font-size="178.954" font-weight="419" fill="#ffffff" fill-opacity="0.6">25</text>
 <defs><radialGradient id="language-1" gradientUnits="userSpaceOnUse" cx="662.5" cy="2.5" r="760"><stop offset="0" stop-color="#ffee70" stop-opacity="0.75"/><stop offset="1" stop-color="#ffeb4c" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="406" y="88" width="171" height="171" rx="16" fill="url(#language-1)"/>
 <rect x="406.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
@@ -30,7 +30,7 @@
 <rect x="223" y="271" width="354" height="171" rx="16" fill="url(#language-4)"/>
 <rect x="223.75" y="271.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="243" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">CSS</text>
-<text x="305.258" y="420.019" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 109;font-stretch:109%" font-size="181.478" font-weight="600" fill="#ffffff" fill-opacity="0.6">5.4</text>
+<text x="305.258" y="420.019" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 109;font-stretch:109%" font-size="181.478" font-weight="467" fill="#ffffff" fill-opacity="0.6">5.4</text>
 <defs><radialGradient id="language-5" gradientUnits="userSpaceOnUse" cx="845.5" cy="185.5" r="760"><stop offset="0" stop-color="#ff633b" stop-opacity="0.75"/><stop offset="1" stop-color="#ff3b0a" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="589" y="271" width="171" height="171" rx="16" fill="url(#language-5)"/>
 <rect x="589.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
@@ -50,6 +50,6 @@
 <rect x="406" y="454" width="354" height="171" rx="16" fill="url(#language-8)"/>
 <rect x="406.75" y="454.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="426" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Other</text>
-<text x="488.956" y="602.919" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 148;font-stretch:148%" font-size="178.411" font-weight="600" fill="#ffffff" fill-opacity="0.6">18</text>
+<text x="488.956" y="602.919" font-family="RobotoFlex, sans-serif" style="font-variation-settings: 'wdth' 148;font-stretch:148%" font-size="178.411" font-weight="590" fill="#ffffff" fill-opacity="0.6">18</text>
 </g>
 </svg>
