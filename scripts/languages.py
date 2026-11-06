@@ -125,8 +125,13 @@ def render_card(rows, total):
                     bottom = min(bottom, y_min)
                     top = max(top, y_max)
                     advance += glyph["advance"]
-                scale = (tile_height - 40) / (top - bottom)
-                if (right - left) * scale <= available_width:
+                if span == 2:
+                    scale = (tile_height - 40) / font_metrics["unitsPerEm"]
+                    fits = (right - left) * scale <= available_width
+                else:
+                    scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom))
+                    fits = True
+                if fits:
                     fitted = (weight, candidate, left, right, bottom, top, scale)
                     break
             if fitted:
