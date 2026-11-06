@@ -93,7 +93,7 @@ def render_card(rows, total):
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         svg.extend([
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.26"/>',
-            f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>',
+            f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
             f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">{label}</text>',
         ])

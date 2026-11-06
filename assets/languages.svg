@@ -6,39 +6,39 @@
 <g font-family="Manrope, sans-serif" fill="#ffffff">
 <text x="40" y="58" font-size="24" font-weight="500">Languages %</text>
 <rect x="40" y="88" width="354" height="171" rx="16" fill="#3178c6" fill-opacity="0.26"/>
-<rect x="40.75" y="88.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="40.75" y="88.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">TypeScript</text>
 <text x="374" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">25</text>
 <rect x="406" y="88" width="171" height="171" rx="16" fill="#f1e05a" fill-opacity="0.26"/>
-<rect x="406.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="406.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="426" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">JavaScript</text>
 <text x="557" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">22</text>
 <rect x="589" y="88" width="171" height="171" rx="16" fill="#dea584" fill-opacity="0.26"/>
-<rect x="589.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="589.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Rust</text>
 <text x="740" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">18</text>
 <rect x="40" y="271" width="171" height="171" rx="16" fill="#b07219" fill-opacity="0.26"/>
-<rect x="40.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="40.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Java</text>
 <text x="191" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">5.6</text>
 <rect x="223" y="271" width="354" height="171" rx="16" fill="#663399" fill-opacity="0.26"/>
-<rect x="223.75" y="271.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="223.75" y="271.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="243" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">CSS</text>
 <text x="557" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">5.5</text>
 <rect x="589" y="271" width="171" height="171" rx="16" fill="#e34c26" fill-opacity="0.26"/>
-<rect x="589.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="589.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">HTML</text>
 <text x="740" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">3.9</text>
 <rect x="40" y="454" width="171" height="171" rx="16" fill="#7e7eff" fill-opacity="0.26"/>
-<rect x="40.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="40.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Nix</text>
 <text x="191" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">2.1</text>
 <rect x="223" y="454" width="171" height="171" rx="16" fill="#3572a5" fill-opacity="0.26"/>
-<rect x="223.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="223.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="243" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Python</text>
 <text x="374" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">0.1</text>
 <rect x="406" y="454" width="354" height="171" rx="16" fill="#999999" fill-opacity="0.26"/>
-<rect x="406.75" y="454.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1.5"/>
+<rect x="406.75" y="454.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="426" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Other</text>
 <text x="740" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">19</text>
 </g>
