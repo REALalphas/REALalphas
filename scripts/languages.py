@@ -91,8 +91,8 @@ def render_card(rows, total):
         color = COLORS.get(name, "#999999")
         svg.extend([
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.18"/>',
-            f'<text x="{x + 24}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
-            f'<text x="{x + width - 24}" y="{y + tile_height - 24}" text-anchor="end" font-size="64" font-weight="700" fill="#ffffff" fill-opacity="0.55">{100 * count / total:.1f}</text>',
+            f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
+            f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.55">{100 * count / total:.1f}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
