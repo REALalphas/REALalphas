@@ -119,7 +119,7 @@ def render_card(rows, total):
             bottom = min(bottom, y_min)
             top = max(top, y_max)
             advance += glyph["advance"]
-        scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom) if span == 2 else float("inf"))
+        scale = min((width - 40) / (right - left), (tile_height - 112) / (top - bottom) if span == 2 else float("inf"))
         number_size = scale * metrics["unitsPerEm"]
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 24 + bottom * scale
