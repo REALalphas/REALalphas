@@ -6,6 +6,6 @@ Use a fine-grained personal access token belonging to REALalphas. Select all rep
 
 Run the Languages workflow after adding the secret. Until then, the checked-in card contains the last generated public-only snapshot. Missing or expired credentials fail the update and preserve the previous card.
 
-The card publishes aggregate language shares by code bytes. Repository names and individual repository statistics are not written to the card. Forks, Bash/Shell, Batch/Batchfile, and Docker/Dockerfile are excluded before calculating percentages.
+The card publishes aggregate language shares by code bytes. Repository names and individual repository statistics are not written to the card. Forks are excluded. Makefile, CMake, Docker/Dockerfile, Bash/Shell, Batch/Batchfile, PowerShell and Just are included in Other along with languages outside the top eight. All included bytes count toward the percentages.
 
 The workflow uses its separate built-in GitHub token to commit the card. Repository Actions settings must allow write permissions, and branch rules must permit the bot to push.

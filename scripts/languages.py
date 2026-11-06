@@ -32,14 +32,15 @@ def main():
             break
         page += 1
 
-    for excluded in ("Bash", "Shell", "Batch", "Batchfile", "Docker", "Dockerfile"):
-        languages.pop(excluded, None)
-
     total = sum(languages.values())
     if not total:
         raise RuntimeError("No language data; keeping the existing card")
+    other = sum(languages.pop(name, 0) for name in (
+        "Makefile", "CMake", "Docker", "Dockerfile", "Bash", "Shell",
+        "Batch", "Batchfile", "PowerShell", "Just",
+    ))
     rows = languages.most_common(8)
-    remaining = total - sum(value for _, value in rows)
+    remaining = other + sum(languages.values()) - sum(value for _, value in rows)
     if remaining:
         rows.append(("Other", remaining))
     destination = Path(__file__).resolve().parent.parent / "assets/languages.svg"
@@ -83,7 +84,7 @@ def render_card(rows, total):
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">Languages</title>',
-        '<desc id="desc">Language shares by code size, excluding forks, Bash, Shell, Batch and Docker files.</desc>',
+        '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
         f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
