@@ -42,7 +42,31 @@ def main():
     remaining = total - sum(value for _, value in rows)
     if remaining:
         rows.append(("Other", remaining))
-    height = 112 + len(rows) * 48
+    destination = Path(__file__).resolve().parent.parent / "assets/languages.svg"
+    destination.write_text(render_card(rows, total), encoding="utf-8")
+
+
+COLORS = {
+    "TypeScript": "#3178c6", "JavaScript": "#f1e05a", "Rust": "#dea584",
+    "Makefile": "#427819", "Java": "#b07219", "CSS": "#663399",
+    "HTML": "#e34c26", "Nix": "#7e7eff", "Python": "#3572a5",
+    "Go": "#00add8", "C": "#555555", "C++": "#f34b7d",
+    "C#": "#178600", "Ruby": "#701516", "PHP": "#4f5d95",
+    "Swift": "#f05138", "Kotlin": "#a97bff", "Dart": "#00b4ab",
+    "Vue": "#41b883", "Svelte": "#ff3e00", "Lua": "#000080",
+    "SCSS": "#c6538c", "Other": "#999999",
+}
+
+
+def render_card(rows, total):
+    # Keep labels legible while letting the larger language shares occupy wider tiles.
+    groups = []
+    for name, count in rows:
+        preferred_width = 144 + 600 * count / total
+        if not groups or len(groups[-1]) == 4 or sum(item[2] for item in groups[-1]) + preferred_width + 12 * len(groups[-1]) > 720:
+            groups.append([])
+        groups[-1].append((name, count, preferred_width))
+    height = 128 + len(groups) * 116 - 12
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">Languages</title>',
@@ -52,18 +76,22 @@ def main():
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
         '<text x="40" y="58" font-size="24" font-weight="500">Languages</text>',
     ]
-    for index, (name, count) in enumerate(rows):
-        y = 104 + index * 48
-        share = count / total
-        svg.extend([
-            f'<text x="40" y="{y}" font-size="18">{escape(name)}</text>',
-            f'<text x="760" y="{y}" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">{share:.1%}</text>',
-            f'<rect x="40" y="{y + 10}" width="720" height="6" rx="3" fill="#333333"/>',
-            f'<rect x="40" y="{y + 10}" width="{720 * share:.2f}" height="6" rx="3" fill="#796699"/>',
-        ])
+    for row_index, group in enumerate(groups):
+        x, y = 40, 88 + row_index * 116
+        available = 720 - 12 * (len(group) - 1)
+        extra = available - 144 * len(group)
+        group_total = sum(count for _, count, _ in group)
+        for name, count, _ in group:
+            width = 144 + extra * count / group_total
+            color = COLORS.get(name, "#999999")
+            svg.extend([
+                f'<rect x="{x:.2f}" y="{y}" width="{width:.2f}" height="104" rx="16" fill="{color}" fill-opacity="0.18"/>',
+                f'<text x="{x + 20:.2f}" y="{y + 34}" font-size="18" font-weight="500">{escape(name)}</text>',
+                f'<text x="{x + 20:.2f}" y="{y + 78}" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">{count / total:.1%}</text>',
+            ])
+            x += width + 12
     svg.extend(['</g>', '</svg>'])
-    destination = Path(__file__).resolve().parent.parent / "assets/languages.svg"
-    destination.write_text("\n".join(svg) + "\n", encoding="utf-8")
+    return "\n".join(svg) + "\n"
 
 
 if __name__ == "__main__":
