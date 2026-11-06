@@ -92,7 +92,7 @@ def render_card(rows, total):
     height = 128 + (row + 1) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
-        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}@font-face{{font-family:RobotoFlex;src:url(data:font/woff;base64,{flex_data}) format("woff");font-weight:600;font-stretch:25% 151%;}}</style>',
+        f'<style>@font-face{{font-family:Unbounded;src:url(data:font/woff;base64,{font_data}) format("woff");font-weight:200 600;}}@font-face{{font-family:RobotoFlex;src:url(data:font/woff;base64,{flex_data}) format("woff");font-weight:200 600;font-stretch:25% 151%;}}</style>',
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
@@ -144,7 +144,7 @@ def render_card(rows, total):
         number_size = scale * units
         number_x = x + width - 20 - right * scale
         number_y = y + tile_height - 20 + bottom * scale
-        width_style = f"font-variation-settings: 'wdth' {number_width};font-stretch:{number_width}%" if span == 2 else ""
+        width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%" if span == 2 else ""
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
