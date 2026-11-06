@@ -1,45 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="528" viewBox="0 0 800 528" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="544" viewBox="0 0 800 544" role="img" aria-labelledby="title desc">
 <title id="title">Languages</title>
 <desc id="desc">Language shares by code size, excluding forks, Bash, Shell, Batch and Docker files.</desc>
 <rect width="800" height="528" rx="24" fill="#222222"/>
-<rect x="0.75" y="0.75" width="798.5" height="526.5" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
+<rect x="0.75" y="0.75" width="798.5" height="542.5" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <g font-family="Manrope, sans-serif" fill="#ffffff">
-<text x="40" y="50" font-size="24" font-weight="500">Languages</text>
-<text x="40" y="88" font-size="18">TypeScript</text>
-<text x="760" y="88" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">25.0%</text>
-<rect x="40" y="98" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="98" width="179.69" height="6" rx="3" fill="#796699"/>
-<text x="40" y="136" font-size="18">JavaScript</text>
-<text x="760" y="136" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">22.1%</text>
-<rect x="40" y="146" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="146" width="158.89" height="6" rx="3" fill="#796699"/>
-<text x="40" y="184" font-size="18">Rust</text>
-<text x="760" y="184" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.8%</text>
-<rect x="40" y="194" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="194" width="128.14" height="6" rx="3" fill="#796699"/>
-<text x="40" y="232" font-size="18">Makefile</text>
-<text x="760" y="232" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.7%</text>
-<rect x="40" y="242" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="242" width="127.72" height="6" rx="3" fill="#796699"/>
-<text x="40" y="280" font-size="18">Java</text>
-<text x="760" y="280" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">5.6%</text>
-<rect x="40" y="290" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="290" width="40.64" height="6" rx="3" fill="#796699"/>
-<text x="40" y="328" font-size="18">CSS</text>
-<text x="760" y="328" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">5.5%</text>
-<rect x="40" y="338" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="338" width="39.72" height="6" rx="3" fill="#796699"/>
-<text x="40" y="376" font-size="18">HTML</text>
-<text x="760" y="376" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">3.9%</text>
-<rect x="40" y="386" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="386" width="27.98" height="6" rx="3" fill="#796699"/>
-<text x="40" y="424" font-size="18">Nix</text>
-<text x="760" y="424" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">2.2%</text>
-<rect x="40" y="434" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="434" width="15.58" height="6" rx="3" fill="#796699"/>
-<text x="40" y="472" font-size="18">Other</text>
-<text x="760" y="472" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">0.2%</text>
-<rect x="40" y="482" width="720" height="6" rx="3" fill="#333333"/>
-<rect x="40" y="482" width="1.65" height="6" rx="3" fill="#796699"/>
+<text x="40" y="74" font-size="24" font-weight="500">Languages</text>
+<text x="40" y="104" font-size="18">TypeScript</text>
+<text x="760" y="104" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">25.0%</text>
+<rect x="40" y="114" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="114" width="179.69" height="6" rx="3" fill="#796699"/>
+<text x="40" y="152" font-size="18">JavaScript</text>
+<text x="760" y="152" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">22.1%</text>
+<rect x="40" y="162" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="162" width="158.89" height="6" rx="3" fill="#796699"/>
+<text x="40" y="200" font-size="18">Rust</text>
+<text x="760" y="200" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.8%</text>
+<rect x="40" y="210" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="210" width="128.14" height="6" rx="3" fill="#796699"/>
+<text x="40" y="248" font-size="18">Makefile</text>
+<text x="760" y="248" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">17.7%</text>
+<rect x="40" y="258" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="258" width="127.72" height="6" rx="3" fill="#796699"/>
+<text x="40" y="296" font-size="18">Java</text>
+<text x="760" y="296" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">5.6%</text>
+<rect x="40" y="306" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="306" width="40.64" height="6" rx="3" fill="#796699"/>
+<text x="40" y="344" font-size="18">CSS</text>
+<text x="760" y="344" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">5.5%</text>
+<rect x="40" y="354" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="354" width="39.72" height="6" rx="3" fill="#796699"/>
+<text x="40" y="392" font-size="18">HTML</text>
+<text x="760" y="392" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">3.9%</text>
+<rect x="40" y="402" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="402" width="27.98" height="6" rx="3" fill="#796699"/>
+<text x="40" y="440" font-size="18">Nix</text>
+<text x="760" y="440" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">2.2%</text>
+<rect x="40" y="450" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="450" width="15.58" height="6" rx="3" fill="#796699"/>
+<text x="40" y="488" font-size="18">Other</text>
+<text x="760" y="488" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">0.2%</text>
+<rect x="40" y="498" width="720" height="6" rx="3" fill="#333333"/>
+<rect x="40" y="498" width="1.65" height="6" rx="3" fill="#796699"/>
 </g>
 </svg>

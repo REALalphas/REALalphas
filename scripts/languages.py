@@ -42,7 +42,7 @@ def main():
     remaining = total - sum(value for _, value in rows)
     if remaining:
         rows.append(("Other", remaining))
-    height = 96 + len(rows) * 48
+    height = 112 + len(rows) * 48
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">Languages</title>',
@@ -50,10 +50,10 @@ def main():
         f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
         f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
-        '<text x="40" y="50" font-size="24" font-weight="500">Languages</text>',
+        '<text x="40" y="58" font-size="24" font-weight="500">Languages</text>',
     ]
     for index, (name, count) in enumerate(rows):
-        y = 88 + index * 48
+        y = 104 + index * 48
         share = count / total
         svg.extend([
             f'<text x="40" y="{y}" font-size="18">{escape(name)}</text>',
