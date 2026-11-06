@@ -110,7 +110,8 @@ def render_card(rows, total):
         number_font = "Pliant"
         number_weight = 600
         number_width = 100
-        title_width = sum(title_metrics.get(c, 0.7) for c in name) * 24
+        display_name = {"TypeScript": "TS", "JavaScript": "JS"}.get(name, name)
+        title_width = sum(title_metrics.get(c, 0.7) for c in display_name) * 24
         available_width = max(1, width - 40 - title_width - 16)
         candidates = sorted(map(int, font_metrics["widths"]), reverse=True)
         for candidate in candidates:
@@ -144,7 +145,7 @@ def render_card(rows, total):
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
             f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
             f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
-            f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(name)}</text>',
+            f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
             f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
         ])
     svg.extend(['</g>', '</svg>'])

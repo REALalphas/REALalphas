@@ -9,12 +9,12 @@
 <defs><radialGradient id="language-0" gradientUnits="userSpaceOnUse" cx="571.0" cy="2.5" r="760"><stop offset="0" stop-color="#4592e6" stop-opacity="0.75"/><stop offset="1" stop-color="#1777e0" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="40" y="88" width="354" height="171" rx="16" fill="url(#language-0)"/>
 <rect x="40.75" y="88.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
-<text x="60" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">TypeScript</text>
-<text x="175.521" y="236.696" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 100, 'wght' 200;font-stretch:100%" font-size="177.267" font-weight="200" fill="#ffffff" fill-opacity="0.6">25</text>
+<text x="60" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">TS</text>
+<text x="125.176" y="236.696" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="177.267" font-weight="600" fill="#ffffff" fill-opacity="0.6">25</text>
 <defs><radialGradient id="language-1" gradientUnits="userSpaceOnUse" cx="662.5" cy="2.5" r="760"><stop offset="0" stop-color="#ffee70" stop-opacity="0.75"/><stop offset="1" stop-color="#ffeb4c" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="406" y="88" width="171" height="171" rx="16" fill="url(#language-1)"/>
 <rect x="406.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
-<text x="426" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">JavaScript</text>
+<text x="426" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">JS</text>
 <text x="420.742" y="239.000" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="98.595" font-weight="600" fill="#ffffff" fill-opacity="0.6">22</text>
 <defs><radialGradient id="language-2" gradientUnits="userSpaceOnUse" cx="845.5" cy="2.5" r="760"><stop offset="0" stop-color="#f2b390" stop-opacity="0.75"/><stop offset="1" stop-color="#eea174" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="589" y="88" width="171" height="171" rx="16" fill="url(#language-2)"/>
