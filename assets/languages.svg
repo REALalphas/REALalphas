@@ -7,30 +7,30 @@
 <text x="40" y="58" font-size="24" font-weight="500">Languages</text>
 <rect x="40.00" y="88" width="366.90" height="104" rx="16" fill="#3178c6" fill-opacity="0.18"/>
 <text x="60.00" y="122" font-size="18" font-weight="500">TypeScript</text>
-<text x="60.00" y="166" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">25.0%</text>
+<text x="60.00" y="166" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">24.9%</text>
 <rect x="418.90" y="88" width="341.10" height="104" rx="16" fill="#f1e05a" fill-opacity="0.18"/>
 <text x="438.90" y="122" font-size="18" font-weight="500">JavaScript</text>
 <text x="438.90" y="166" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">22.1%</text>
-<rect x="40.00" y="204" width="258.09" height="104" rx="16" fill="#dea584" fill-opacity="0.18"/>
+<rect x="40.00" y="204" width="258.10" height="104" rx="16" fill="#dea584" fill-opacity="0.18"/>
 <text x="60.00" y="238" font-size="18" font-weight="500">Rust</text>
 <text x="60.00" y="282" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">17.8%</text>
-<rect x="310.09" y="204" width="257.72" height="104" rx="16" fill="#427819" fill-opacity="0.18"/>
-<text x="330.09" y="238" font-size="18" font-weight="500">Makefile</text>
-<text x="330.09" y="282" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">17.7%</text>
-<rect x="579.81" y="204" width="180.19" height="104" rx="16" fill="#b07219" fill-opacity="0.18"/>
-<text x="599.81" y="238" font-size="18" font-weight="500">Java</text>
-<text x="599.81" y="282" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">5.6%</text>
-<rect x="40.00" y="320" width="194.51" height="104" rx="16" fill="#663399" fill-opacity="0.18"/>
+<rect x="310.10" y="204" width="257.72" height="104" rx="16" fill="#427819" fill-opacity="0.18"/>
+<text x="330.10" y="238" font-size="18" font-weight="500">Makefile</text>
+<text x="330.10" y="282" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">17.7%</text>
+<rect x="579.82" y="204" width="180.18" height="104" rx="16" fill="#b07219" fill-opacity="0.18"/>
+<text x="599.82" y="238" font-size="18" font-weight="500">Java</text>
+<text x="599.82" y="282" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">5.6%</text>
+<rect x="40.00" y="320" width="194.36" height="104" rx="16" fill="#663399" fill-opacity="0.18"/>
 <text x="60.00" y="354" font-size="18" font-weight="500">CSS</text>
 <text x="60.00" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">5.5%</text>
-<rect x="246.51" y="320" width="179.58" height="104" rx="16" fill="#e34c26" fill-opacity="0.18"/>
-<text x="266.51" y="354" font-size="18" font-weight="500">HTML</text>
-<text x="266.51" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">3.9%</text>
-<rect x="438.09" y="320" width="163.81" height="104" rx="16" fill="#7e7eff" fill-opacity="0.18"/>
-<text x="458.09" y="354" font-size="18" font-weight="500">Nix</text>
-<text x="458.09" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">2.2%</text>
-<rect x="613.90" y="320" width="146.10" height="104" rx="16" fill="#999999" fill-opacity="0.18"/>
-<text x="633.90" y="354" font-size="18" font-weight="500">Other</text>
-<text x="633.90" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">0.2%</text>
+<rect x="246.36" y="320" width="179.48" height="104" rx="16" fill="#e34c26" fill-opacity="0.18"/>
+<text x="266.36" y="354" font-size="18" font-weight="500">HTML</text>
+<text x="266.36" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">3.9%</text>
+<rect x="437.83" y="320" width="163.75" height="104" rx="16" fill="#7e7eff" fill-opacity="0.18"/>
+<text x="457.83" y="354" font-size="18" font-weight="500">Nix</text>
+<text x="457.83" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">2.2%</text>
+<rect x="613.58" y="320" width="146.42" height="104" rx="16" fill="#999999" fill-opacity="0.18"/>
+<text x="633.58" y="354" font-size="18" font-weight="500">Other</text>
+<text x="633.58" y="398" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">0.3%</text>
 </g>
 </svg>
