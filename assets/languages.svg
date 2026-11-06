@@ -9,46 +9,46 @@
 <rect x="40" y="88" width="354" height="171" rx="16" fill="url(#language-0)"/>
 <rect x="40.75" y="88.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">TypeScript</text>
-<text x="374" y="239" text-anchor="end" font-size="120" font-weight="700" fill="#ffffff" fill-opacity="0.6">25</text>
+<text x="374" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">25</text>
 <defs><radialGradient id="language-1" gradientUnits="userSpaceOnUse" cx="662.5" cy="2.5" r="760"><stop offset="0" stop-color="#ffee70" stop-opacity="0.75"/><stop offset="1" stop-color="#ffeb4c" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="406" y="88" width="171" height="171" rx="16" fill="url(#language-1)"/>
 <rect x="406.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="426" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">JavaScript</text>
-<text x="557" y="239" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">22</text>
+<text x="557" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">22</text>
 <defs><radialGradient id="language-2" gradientUnits="userSpaceOnUse" cx="845.5" cy="2.5" r="760"><stop offset="0" stop-color="#f2b390" stop-opacity="0.75"/><stop offset="1" stop-color="#eea174" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="589" y="88" width="171" height="171" rx="16" fill="url(#language-2)"/>
 <rect x="589.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Rust</text>
-<text x="740" y="239" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">18</text>
+<text x="740" y="235" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">18</text>
 <defs><radialGradient id="language-3" gradientUnits="userSpaceOnUse" cx="296.5" cy="185.5" r="760"><stop offset="0" stop-color="#d59232" stop-opacity="0.75"/><stop offset="1" stop-color="#c97600" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="40" y="271" width="171" height="171" rx="16" fill="url(#language-3)"/>
 <rect x="40.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Java</text>
-<text x="191" y="422" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">5.6</text>
+<text x="191" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">5.6</text>
 <defs><radialGradient id="language-4" gradientUnits="userSpaceOnUse" cx="754.0" cy="185.5" r="760"><stop offset="0" stop-color="#854ebb" stop-opacity="0.75"/><stop offset="1" stop-color="#6621ab" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="223" y="271" width="354" height="171" rx="16" fill="url(#language-4)"/>
 <rect x="223.75" y="271.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="243" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">CSS</text>
-<text x="557" y="422" text-anchor="end" font-size="120" font-weight="700" fill="#ffffff" fill-opacity="0.6">5.4</text>
+<text x="557" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">5.4</text>
 <defs><radialGradient id="language-5" gradientUnits="userSpaceOnUse" cx="845.5" cy="185.5" r="760"><stop offset="0" stop-color="#ff633b" stop-opacity="0.75"/><stop offset="1" stop-color="#ff3b0a" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="589" y="271" width="171" height="171" rx="16" fill="url(#language-5)"/>
 <rect x="589.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">HTML</text>
-<text x="740" y="422" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">3.8</text>
+<text x="740" y="418" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">3.8</text>
 <defs><radialGradient id="language-6" gradientUnits="userSpaceOnUse" cx="296.5" cy="368.5" r="760"><stop offset="0" stop-color="#9898ff" stop-opacity="0.75"/><stop offset="1" stop-color="#7e7eff" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="40" y="454" width="171" height="171" rx="16" fill="url(#language-6)"/>
 <rect x="40.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="60" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Nix</text>
-<text x="191" y="605" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">2.1</text>
+<text x="191" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">2.1</text>
 <defs><radialGradient id="language-7" gradientUnits="userSpaceOnUse" cx="479.5" cy="368.5" r="760"><stop offset="0" stop-color="#4d8fc7" stop-opacity="0.75"/><stop offset="1" stop-color="#2174b9" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="223" y="454" width="171" height="171" rx="16" fill="url(#language-7)"/>
 <rect x="223.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="243" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Python</text>
-<text x="374" y="605" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">0.2</text>
+<text x="374" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">0.2</text>
 <defs><radialGradient id="language-8" gradientUnits="userSpaceOnUse" cx="937.0" cy="368.5" r="760"><stop offset="0" stop-color="#adadad" stop-opacity="0.75"/><stop offset="1" stop-color="#999999" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="406" y="454" width="354" height="171" rx="16" fill="url(#language-8)"/>
 <rect x="406.75" y="454.75" width="352.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="426" y="498" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Other</text>
-<text x="740" y="605" text-anchor="end" font-size="120" font-weight="700" fill="#ffffff" fill-opacity="0.6">18</text>
+<text x="740" y="601" text-anchor="end" font-size="60" font-weight="700" fill="#ffffff" fill-opacity="0.6">18</text>
 </g>
 </svg>
