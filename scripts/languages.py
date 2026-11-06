@@ -59,14 +59,27 @@ COLORS = {
 
 
 def render_card(rows, total):
-    # Keep labels legible while letting the larger language shares occupy wider tiles.
-    groups = []
+    # Three-column grid: larger languages span two cells, smaller ones stay square.
+    cell = 232
+    gap = 12
+    tile_height = cell
+    row_step = tile_height + gap
+    placements = []
+    occupied = []
     for name, count in rows:
-        preferred_width = 144 + 600 * count / total
-        if not groups or len(groups[-1]) == 4 or sum(item[2] for item in groups[-1]) + preferred_width + 12 * len(groups[-1]) > 720:
-            groups.append([])
-        groups[-1].append((name, count, preferred_width))
-    height = 128 + len(groups) * 116 - 12
+        span = 2 if count / total >= 0.1 else 1
+        row = 0
+        while True:
+            if row == len(occupied):
+                occupied.append([False] * 3)
+            column = next((col for col in range(4 - span)
+                           if not any(occupied[row][col:col + span])), None)
+            if column is not None:
+                occupied[row][column:column + span] = [True] * span
+                placements.append((name, count, row, column, span))
+                break
+            row += 1
+    height = 128 + len(occupied) * row_step - gap
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="800" height="{height}" viewBox="0 0 800 {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">Languages</title>',
@@ -76,20 +89,16 @@ def render_card(rows, total):
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
         '<text x="40" y="58" font-size="24" font-weight="500">Languages</text>',
     ]
-    for row_index, group in enumerate(groups):
-        x, y = 40, 88 + row_index * 116
-        available = 720 - 12 * (len(group) - 1)
-        extra = available - 144 * len(group)
-        group_total = sum(count for _, count, _ in group)
-        for name, count, _ in group:
-            width = 144 + extra * count / group_total
-            color = COLORS.get(name, "#999999")
-            svg.extend([
-                f'<rect x="{x:.2f}" y="{y}" width="{width:.2f}" height="104" rx="16" fill="{color}" fill-opacity="0.18"/>',
-                f'<text x="{x + 20:.2f}" y="{y + 34}" font-size="18" font-weight="500">{escape(name)}</text>',
-                f'<text x="{x + 20:.2f}" y="{y + 78}" font-family="Fira Code, monospace" font-size="24" fill="#dddddd">{count / total:.1%}</text>',
-            ])
-            x += width + 12
+    for name, count, row, column, span in placements:
+        x = 40 + column * (cell + gap)
+        y = 88 + row * row_step
+        width = cell * span + gap * (span - 1)
+        color = COLORS.get(name, "#999999")
+        svg.extend([
+            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="{color}" fill-opacity="0.18"/>',
+            f'<text x="{x + 20}" y="{y + 34}" font-size="18" font-weight="600">{escape(name)}</text>',
+            f'<text x="{x + width - 20}" y="{y + tile_height - 24}" text-anchor="end" font-size="56" font-weight="600" fill="#dddddd">{count / total:.1%}</text>',
+        ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
 
