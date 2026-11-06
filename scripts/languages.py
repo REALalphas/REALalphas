@@ -116,30 +116,24 @@ def render_card(rows, total):
         base_top = max(base_glyphs[c]["bounds"][3] for c in label)
         number_size = target_height / (base_top - base_bottom) * font_metrics["unitsPerEm"]
         fitted = None
-        for weight in (600, 550, 500, 450, 400, 350, 300, 250, 200):
-            for candidate in sorted(map(int, font_metrics["widths"]), reverse=True):
-                glyphs = font_metrics["variants"][str(weight)][str(candidate)]
-                advance = 0
-                left, right = float("inf"), float("-inf")
-                bottom, top = float("inf"), float("-inf")
-                for character in label:
-                    glyph = glyphs[character]
-                    x_min, y_min, x_max, y_max = glyph["bounds"]
-                    left = min(left, advance + x_min)
-                    right = max(right, advance + x_max)
-                    bottom = min(bottom, y_min)
-                    top = max(top, y_max)
-                    advance += glyph["advance"]
-                if span == 2:
-                    scale = target_height / (top - bottom)
-                    fits = (right - left) * scale <= available_width
-                else:
-                    scale = min((width - 40) / (right - left), (tile_height - 80) / (top - bottom))
-                    fits = True
-                if fits:
-                    fitted = (weight, candidate, left, right, bottom, top, scale)
-                    break
-            if fitted:
+        weight = 600
+        for candidate in sorted(map(int, font_metrics["widths"]), reverse=True):
+            glyphs = font_metrics["variants"][str(weight)][str(candidate)]
+            advance = 0
+            left, right = float("inf"), float("-inf")
+            bottom, top = float("inf"), float("-inf")
+            for character in label:
+                glyph = glyphs[character]
+                x_min, y_min, x_max, y_max = glyph["bounds"]
+                left = min(left, advance + x_min)
+                right = max(right, advance + x_max)
+                bottom = min(bottom, y_min)
+                top = max(top, y_max)
+                advance += glyph["advance"]
+            scale = target_height / (top - bottom)
+            fits = (right - left) * scale <= available_width if span == 2 else True
+            fitted = (weight, candidate, left, right, bottom, top, scale)
+            if fits:
                 break
         if not fitted:
             raise RuntimeError("Pliant cannot fit the number at its maximum tile height")
