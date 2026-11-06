@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="544" viewBox="0 0 800 544" role="img" aria-labelledby="title desc">
 <title id="title">Languages</title>
 <desc id="desc">Language shares by code size, excluding forks, Bash, Shell, Batch and Docker files.</desc>
-<rect width="800" height="528" rx="24" fill="#222222"/>
+<rect width="800" height="544" rx="24" fill="#222222"/>
 <rect x="0.75" y="0.75" width="798.5" height="542.5" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <g font-family="Manrope, sans-serif" fill="#ffffff">
-<text x="40" y="74" font-size="24" font-weight="500">Languages</text>
+<text x="40" y="58" font-size="24" font-weight="500">Languages</text>
 <text x="40" y="104" font-size="18">TypeScript</text>
 <text x="760" y="104" text-anchor="end" font-family="Fira Code, monospace" font-size="16" fill="#dddddd">25.0%</text>
 <rect x="40" y="114" width="720" height="6" rx="3" fill="#333333"/>
