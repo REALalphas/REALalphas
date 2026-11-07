@@ -20,7 +20,7 @@
 <rect x="589" y="88" width="171" height="171" rx="16" fill="url(#language-2)"/>
 <rect x="589.75" y="88.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="132" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">Rust</text>
-<text x="636.339" y="239.000" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="102.600" font-weight="600" fill="#ffffff" fill-opacity="0.6">17</text>
+<text x="623.891" y="237.666" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="102.600" font-weight="600" fill="#ffffff" fill-opacity="0.6">18</text>
 <defs><radialGradient id="language-3" gradientUnits="userSpaceOnUse" cx="296.5" cy="185.5" r="760"><stop offset="0" stop-color="#d59232" stop-opacity="0.75"/><stop offset="1" stop-color="#c97600" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="40" y="271" width="171" height="171" rx="16" fill="url(#language-3)"/>
 <rect x="40.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
@@ -35,7 +35,7 @@
 <rect x="589" y="271" width="171" height="171" rx="16" fill="url(#language-5)"/>
 <rect x="589.75" y="271.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
 <text x="609" y="315" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">HTML</text>
-<text x="607.335" y="420.918" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="83.227" font-weight="600" fill="#ffffff" fill-opacity="0.6">4.3</text>
+<text x="605.291" y="420.936" font-family="Pliant, sans-serif" style="font-variation-settings: 'wdth' 125, 'wght' 600;font-stretch:125%" font-size="81.824" font-weight="600" fill="#ffffff" fill-opacity="0.6">3.8</text>
 <defs><radialGradient id="language-6" gradientUnits="userSpaceOnUse" cx="296.5" cy="368.5" r="760"><stop offset="0" stop-color="#9898ff" stop-opacity="0.75"/><stop offset="1" stop-color="#7e7eff" stop-opacity="0.07"/></radialGradient></defs>
 <rect x="40" y="454" width="171" height="171" rx="16" fill="url(#language-6)"/>
 <rect x="40.75" y="454.75" width="169.5" height="169.5" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>
