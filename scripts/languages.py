@@ -9,6 +9,8 @@ from html import escape
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+from svg_geometry import contour
+
 
 def github(path):
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "REALalphas-profile"}
@@ -46,7 +48,10 @@ def main():
     if remaining:
         rows.append(("Other", remaining))
     destination = Path(__file__).resolve().parent.parent / "assets/languages.svg"
-    destination.write_text(render_card(rows, total), encoding="utf-8")
+    svg = render_card(rows, total)
+    changed = not destination.exists() or destination.read_text(encoding="utf-8") != svg
+    destination.write_text(svg, encoding="utf-8")
+    print(f"languages.svg: {'updated' if changed else 'unchanged'}")
 
 
 # GitHub Linguist palette: https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml
@@ -1242,7 +1247,7 @@ def language_label(name, metrics, max_width):
     label = LANGUAGE_LABELS.get(name, name)
 
     def text_width(text):
-        return sum(metrics.get(character, 0.7) for character in text) * 24
+        return sum(metrics.get(character, 0.7) for character in text) * 28
 
     if text_width(label) <= max_width:
         return label
@@ -1295,10 +1300,10 @@ def render_card(rows, total):
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         '<defs><filter id="acrylic-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>',
-        f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
-        f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
+        f'<path d="{contour(0, 0, 800, height, 40)}" fill="#222222"/>',
+        f'<path d="{contour(.75, .75, 798.5, height - 1.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
-        '<text x="40" y="58" font-size="24" font-weight="500">Languages %</text>',
+        '<text x="40" y="58" font-size="28" font-weight="500">Languages %</text>',
     ]
     for index, (name, count, row, column, span) in enumerate(placements):
         x = 40 + column * (cell + gap)
@@ -1312,7 +1317,7 @@ def render_card(rows, total):
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         number_font = "Pliant"
         display_name = language_label(name, title_metrics, cell - 40)
-        title_width = sum(title_metrics.get(c, 0.7) for c in display_name) * 24
+        title_width = sum(title_metrics.get(c, 0.7) for c in display_name) * 28
         available_width = max(1, width - 40 - title_width - 2)
         target_height = tile_height - 40
         fitted = None
@@ -1350,13 +1355,13 @@ def render_card(rows, total):
         width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%"
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="url(#language-{index})"/>',
             f'<defs><radialGradient id="language-counter-{index}" gradientUnits="userSpaceOnUse" cx="{x - 50}" cy="{y + tile_height + 30}" r="300"><stop offset="0" stop-color="{counter_color}" stop-opacity="0.5"/><stop offset="1" stop-color="{counter_color}" stop-opacity="0"/></radialGradient></defs>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-counter-{index})"/>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="url(#language-counter-{index})"/>',
             f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
-            f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
-            f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
+            f'<path d="{contour(x + .75, y + .75, width - 1.5, tile_height - 1.5, 31.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
+            f'<text x="{x + 20}" y="{y + 40}" font-size="28" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
