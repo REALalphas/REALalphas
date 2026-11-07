@@ -1,13 +1,15 @@
-name: Languages
+name: Profile widgets
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "17 * * * *"
   workflow_dispatch:
   push:
     branches: [main, master]
     paths:
       - scripts/languages.py
+      - scripts/activity.py
+      - scripts/svg_geometry.py
       - .github/workflows/languages.yml
 
 permissions:
@@ -29,12 +31,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
         run: python scripts/languages.py
+      - name: Generate activity widgets
+        env:
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: python scripts/activity.py
       - name: Commit updated card
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/languages.svg
+          git add README.md assets/languages.svg assets/activity.svg assets/activity-state.json
           if ! git diff --cached --quiet; then
-            git commit -m "Update language statistics"
+            git commit -m "Update profile widgets"
             git push
           fi

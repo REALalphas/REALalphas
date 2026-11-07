@@ -9,6 +9,8 @@ from html import escape
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+from svg_geometry import contour
+
 
 def github(path):
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "REALalphas-profile"}
@@ -1295,8 +1297,8 @@ def render_card(rows, total):
         '<title id="title">Languages %</title>',
         '<desc id="desc">Language shares by code size, excluding forks. Build files, containers and shell scripts are grouped into Other.</desc>',
         '<defs><filter id="acrylic-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>',
-        f'<rect width="800" height="{height}" rx="24" fill="#222222"/>',
-        f'<rect x="0.75" y="0.75" width="798.5" height="{height - 1.5:g}" rx="23.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
+        f'<path d="{contour(0, 0, 800, height, 40)}" fill="#222222"/>',
+        f'<path d="{contour(.75, .75, 798.5, height - 1.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
         '<text x="40" y="58" font-size="24" font-weight="500">Languages %</text>',
     ]
@@ -1350,12 +1352,12 @@ def render_card(rows, total):
         width_style = f"font-variation-settings: 'wdth' {number_width}, 'wght' {number_weight};font-stretch:{number_width}%"
         svg.extend([
             f'<defs><radialGradient id="language-{index}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{y - tile_height * 0.5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity="0.75"/><stop offset="1" stop-color="{color}" stop-opacity="0.07"/></radialGradient></defs>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-{index})"/>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="url(#language-{index})"/>',
             f'<defs><radialGradient id="language-counter-{index}" gradientUnits="userSpaceOnUse" cx="{x - 50}" cy="{y + tile_height + 30}" r="300"><stop offset="0" stop-color="{counter_color}" stop-opacity="0.5"/><stop offset="1" stop-color="{counter_color}" stop-opacity="0"/></radialGradient></defs>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="url(#language-counter-{index})"/>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="url(#language-counter-{index})"/>',
             f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
-            f'<rect x="{x}" y="{y}" width="{width}" height="{tile_height}" rx="16" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
-            f'<rect x="{x + 0.75}" y="{y + 0.75}" width="{width - 1.5}" height="{tile_height - 1.5}" rx="15.25" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
+            f'<path d="{contour(x, y, width, tile_height, 32)}" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
+            f'<path d="{contour(x + .75, y + .75, width - 1.5, tile_height - 1.5, 31.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
             f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
