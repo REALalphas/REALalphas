@@ -123,7 +123,7 @@ def render(data):
     def font(name):
         return base64.b64encode((ASSETS / "fonts" / name).read_bytes()).decode()
 
-    svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="665" viewBox="0 0 800 665" role="img" aria-labelledby="title desc">
+    svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.333333" height="665" viewBox="0 0 533.333333 665" role="img" aria-labelledby="title desc">
 <title id="title">Meanwhile · AlphaS</title>
 <desc id="desc">Time since last commit, stars received versus given, latest starred repository and a GitHub neighbor. Updated hourly.</desc>
 <style>
@@ -132,8 +132,8 @@ def render(data):
 @font-face{{font-family:Pliant;src:url(data:font/woff;base64,{font('Pliant-digits.woff')});font-weight:600}}
 text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-weight:400}}.digits{{font-family:Pliant,sans-serif;font-weight:600;font-stretch:125%;font-variation-settings:'wdth' 125,'wght' 600}}
 </style>
-<path d="{contour(0, 0, 800, 665, 40)}" fill="#222222"/>
-<path d="{contour(.75, .75, 798.5, 663.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>
+<path d="{contour(0, 0, 533.333333, 665, 40)}" fill="#222222"/>
+<path d="{contour(.75, .75, 531.833333, 663.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>
 ''']
 
     def label(x, y, value, size=36, color="secondary", anchor="start", family=None):
@@ -157,19 +157,16 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     label(40, 58, "Meanwhile", 36, "text")
     # The paired flip panels keep the time counter tactile, using UI surfaces.
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
-    panel(40, 88, 720, 116)
+    panel(40, 88, 453.333333, 116)
     parts = stamp.split(" ", 1)
     if parts[0].isdigit():
         value = parts[0]
-        digit_width = 80 if len(value) <= 2 else 60
-        for index, digit in enumerate(value):
-            x = 56 + index * (digit_width + 8)
-            panel(x, 100, digit_width, 92, 32, "navigation")
-            svg.append(f'<path d="M{x + 3} 146h{digit_width - 6}" stroke="#292929" stroke-width="3"/>')
-            number(x + digit_width / 2, 176, digit, 84 if len(value) <= 2 else 68, "middle")
-        label_x = max(264, 72 + len(value) * (digit_width + 8))
-        label(label_x, 132, "Last commit", color="muted")
-        label(label_x, 181, parts[1], family="body")
+        digit_width = 64 + max(0, len(value) - 1) * 40
+        panel(64, 112, digit_width, 68, 24, "navigation")
+        number(64 + digit_width / 2, 170, value, 64, "middle")
+        label_x = 64 + digit_width + 24
+        label(label_x, 138, "Last commit", color="muted")
+        label(label_x, 178, parts[1])
     else:
         icon("git-commit-horizontal", 64, 122)
         label(136, 160, stamp)
@@ -177,17 +174,17 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     # One two-tone surface: segment widths encode the actual received/given ratio.
     received, given = data["received"], data["given"]
     ratio = received / (received + given) if received + given else .5
-    split = 64 + 672 * ratio
-    panel(40, 220, 720, 164)
-    icon("star", 64, 226, 48, "secondary")
-    label(128, 263, "Stars", color="text")
+    split = 64 + 405.333333 * ratio
+    panel(40, 220, 453.333333, 164)
+    icon("star", 64, 238, 40, "secondary")
+    label(120, 270, "Stars", color="text")
     svg.append(f'<title>Stars: {received} received, {given} given</title>')
-    svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(64, 280, 672, 88, 32)}"/></clipPath></defs>')
+    svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(64, 288, 405.333333, 72, 24)}"/></clipPath></defs>')
     svg.append('<defs><filter id="stars-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>')
     svg.append('<g clip-path="url(#stars-shape)">')
     for key, x, width, color in [
-        ("received", 64, 672 * ratio, "#f1e05a"),
-        ("given", split, 672 * (1 - ratio), "#663399"),
+        ("received", 64, 405.333333 * ratio, "#f1e05a"),
+        ("given", split, 405.333333 * (1 - ratio), "#663399"),
     ]:
         # Same two radial light sources and acrylic grain as the language tiles.
         bright = "#" + "".join(f"{round(int(color[i:i + 2], 16) * .8 + 255 * .2):02x}" for i in (1, 3, 5))
@@ -195,8 +192,8 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         counter = shift_hue(color, -20, saturation_scale=1.2, lightness_scale=.9)
         svg.append(f'<defs><radialGradient id="stars-{key}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="236" r="760"><stop offset="0" stop-color="{bright}" stop-opacity=".75"/><stop offset="1" stop-color="{color}" stop-opacity=".07"/></radialGradient><radialGradient id="stars-{key}-counter" gradientUnits="userSpaceOnUse" cx="{x - 50}" cy="398" r="300"><stop offset="0" stop-color="{counter}" stop-opacity=".5"/><stop offset="1" stop-color="{counter}" stop-opacity="0"/></radialGradient></defs>')
         for fill in [f"url(#stars-{key})", f"url(#stars-{key}-counter)"]:
-            svg.append(f'<rect x="{x:.3f}" y="280" width="{width:.3f}" height="88" fill="{fill}"/>')
-        svg.append(f'<rect x="{x:.3f}" y="280" width="{width:.3f}" height="88" fill="#ffffff" filter="url(#stars-noise)" opacity=".12"/>')
+            svg.append(f'<rect x="{x:.3f}" y="288" width="{width:.3f}" height="72" fill="{fill}"/>')
+        svg.append(f'<rect x="{x:.3f}" y="288" width="{width:.3f}" height="72" fill="#ffffff" filter="url(#stars-noise)" opacity=".12"/>')
     svg.append('</g>')
 
     metrics = json.loads((ASSETS / "fonts/Pliant-digits-metrics.json").read_text())
@@ -207,34 +204,34 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         if all(character in glyphs for character in value):
             bottom = min(glyphs[c]["bounds"][1] for c in value)
             top = max(glyphs[c]["bounds"][3] for c in value)
-            baseline = 324 + (top + bottom) * 60 / (2 * metrics["unitsPerEm"])
-            number(x, round(baseline, 3), value, 60, anchor)
+            baseline = 324 + (top + bottom) * 44 / (2 * metrics["unitsPerEm"])
+            number(x, round(baseline, 3), value, 44, anchor)
         else:
-            svg.append(f'<text class="digits" x="{x}" y="324" dominant-baseline="central" font-size="60" text-anchor="{anchor}" fill="#ffffff" fill-opacity=".6">{escape(value)}</text>')
+            svg.append(f'<text class="digits" x="{x}" y="324" dominant-baseline="central" font-size="44" text-anchor="{anchor}" fill="#ffffff" fill-opacity=".6">{escape(value)}</text>')
 
     def star_label(x, value, anchor="start"):
         svg.append(f'<text x="{x:.3f}" y="324" dy=".35em" font-size="36" font-weight="500" text-anchor="{anchor}" fill="#ffffff" fill-opacity=".38">{value}</text>')
 
     if min(ratio, 1 - ratio) >= .25:
-        centered_total(88, received)
-        star_label(split - 24, "Got", "end")
-        star_label(split + 24, "Given")
-        centered_total(712, given, "end")
+        centered_total(76, received)
+        star_label(split - 12, "Got", "end")
+        star_label(split + 12, "Given")
+        centered_total(457.333333, given, "end")
     else:
         # Keep both totals legible when one proportional segment is very narrow.
-        label(736, 263, f"Got {compact(received)} / Given {compact(given)}", anchor="end")
+        label(469.333333, 270, f"Got {compact(received)} / Given {compact(given)}", anchor="end")
         if ratio >= .25:
-            centered_total(88, received)
-            star_label(split - 24, "Got", "end")
+            centered_total(76, received)
+            star_label(split - 12, "Got", "end")
         if 1 - ratio >= .25:
-            star_label(split + 24, "Given")
-            centered_total(712, given, "end")
+            star_label(split + 12, "Given")
+            centered_total(457.333333, given, "end")
 
     # A compact bookmark, with enough type size to read the actual repository.
     repo = data["discovery"]
-    panel(40, 400, 720, 128)
+    panel(40, 400, 453.333333, 128)
     label(64, 448, "Latest find", color="muted")
-    icon("bookmark", 688, 412, 48)
+    icon("bookmark", 421.333333, 412, 48)
     if repo:
         svg.append(f'<a xlink:href="{escape(repo["url"], quote=True)}">')
         name = repo["name"]
@@ -242,8 +239,8 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         widths = json.loads((ASSETS / "fonts/title-metrics.json").read_text())
         def advance(value):
             return sum(widths.get(character, .7) for character in value) * 36
-        if advance(name) > 672:
-            while name and advance(name + "…") > 672:
+        if advance(name) > 405.333333:
+            while name and advance(name + "…") > 405.333333:
                 name = name[:-1]
             name = name.rstrip() + "…"
         label(64, 500, name)
@@ -268,8 +265,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     (ROOT / "README.md").write_text('''<img src="assets/profile.svg" width="800" alt="AlphaS · @REALalphas" />
 
 <p>
-<img src="assets/activity.svg" width="390" alt="Meanwhile: last commit, stars received versus given, latest find and GitHub neighbor" />
-<img src="assets/languages.svg" width="390" alt="Languages %" />
+<img src="assets/activity.svg" width="316" alt="Meanwhile: last commit, stars received versus given, latest find and GitHub neighbor" />&nbsp;&nbsp;<img src="assets/languages.svg" width="474" alt="Languages %" />
 </p>
 ''', encoding="utf-8")
 

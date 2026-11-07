@@ -1244,7 +1244,7 @@ def language_label(name, metrics, max_width):
     label = LANGUAGE_LABELS.get(name, name)
 
     def text_width(text):
-        return sum(metrics.get(character, 0.7) for character in text) * 24
+        return sum(metrics.get(character, 0.7) for character in text) * 36
 
     if text_width(label) <= max_width:
         return label
@@ -1300,7 +1300,7 @@ def render_card(rows, total):
         f'<path d="{contour(0, 0, 800, height, 40)}" fill="#222222"/>',
         f'<path d="{contour(.75, .75, 798.5, height - 1.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
         '<g font-family="Manrope, sans-serif" fill="#ffffff">',
-        '<text x="40" y="58" font-size="24" font-weight="500">Languages %</text>',
+        '<text x="40" y="58" font-size="36" font-weight="500">Languages %</text>',
     ]
     for index, (name, count, row, column, span) in enumerate(placements):
         x = 40 + column * (cell + gap)
@@ -1314,7 +1314,7 @@ def render_card(rows, total):
         label = f"{percentage:.0f}" if percentage > 9 else f"{percentage:.1f}"
         number_font = "Pliant"
         display_name = language_label(name, title_metrics, cell - 40)
-        title_width = sum(title_metrics.get(c, 0.7) for c in display_name) * 24
+        title_width = sum(title_metrics.get(c, 0.7) for c in display_name) * 36
         available_width = max(1, width - 40 - title_width - 2)
         target_height = tile_height - 40
         fitted = None
@@ -1358,7 +1358,7 @@ def render_card(rows, total):
             f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
             f'<path d="{contour(x, y, width, tile_height, 32)}" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
             f'<path d="{contour(x + .75, y + .75, width - 1.5, tile_height - 1.5, 31.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
-            f'<text x="{x + 20}" y="{y + 44}" font-size="24" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
+            f'<text x="{x + 20}" y="{y + 48}" font-size="36" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
