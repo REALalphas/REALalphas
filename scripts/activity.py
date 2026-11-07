@@ -155,7 +155,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         shapes = "".join(ET.tostring(child, encoding="unicode") for child in root)
         svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
 
-    label(40, 58, "Meanwhile", 36, "text")
+    label(40, 58, "Meanwhile", 28, "text")
     # The paired flip panels keep the time counter tactile, using UI surfaces.
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
     panel(40, 88, 453.333333, 116)
@@ -166,7 +166,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         panel(64, 112, digit_width, 68, 24, "navigation")
         number(64 + digit_width / 2, 170, value, 64, "middle")
         label_x = 64 + digit_width + 24
-        label(label_x, 138, "Last commit", color="muted")
+        label(label_x, 138, "Last commit", 28, color="muted")
         label(label_x, 178, parts[1])
     else:
         icon("git-commit-horizontal", 64, 122)
@@ -178,7 +178,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     split = 64 + 405.333333 * ratio
     panel(40, 220, 453.333333, 164)
     icon("star", 64, 238, 40, "secondary")
-    label(120, 270, "Stars", color="text")
+    label(120, 270, "Stars", 28, color="text")
     svg.append(f'<title>Stars: {received} received, {given} given</title>')
     svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(64, 288, 405.333333, 72, 24)}"/></clipPath></defs>')
     svg.append('<defs><filter id="stars-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>')
@@ -231,7 +231,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     # A compact bookmark, with enough type size to read the actual repository.
     repo = data["discovery"]
     panel(40, 400, 453.333333, 128)
-    label(64, 448, "Latest find", color="muted")
+    label(64, 448, "Latest find", 28, color="muted")
     icon("bookmark", 421.333333, 412, 48)
     if repo:
         svg.append(f'<a xlink:href="{escape(repo["url"], quote=True)}">')
@@ -251,7 +251,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
 
     # A plain cropped avatar, without the profile component's frame or inset.
     person = data["neighbor"]
-    label(144, 575, "Latest follower", color="muted")
+    label(144, 575, "Latest follower", 28, color="muted")
     if person:
         svg.append(f'<a xlink:href="{escape(person["html_url"], quote=True)}">')
         outline = contour(40, 544, 80, 80, 32)
