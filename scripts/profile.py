@@ -23,9 +23,9 @@ def render():
 <title id="title">AlphaS · @REALalphas</title>
 <desc id="desc">AlphaS on a graphite background.</desc>
 <path d="{outline}" fill="#222222" stroke="#999999" stroke-opacity="0.266667" stroke-width="{stroke:g}"/>
-<g transform="translate(12 12) scale(1.7)">{shapes}</g>
-<text x="88" y="46" fill="#ffffff" font-family="Manrope, sans-serif" font-size="32" font-weight="500">AlphaS</text>
-<text x="88" y="75" fill="#999999" font-family="Manrope, sans-serif" font-size="{28 * scale:g}" font-weight="400">@REALalphas</text>
+<g transform="translate(13 14) scale(1.7)">{shapes}</g>
+<text x="88" y="47" fill="#ffffff" font-family="Manrope, sans-serif" font-size="32" font-weight="500">AlphaS</text>
+<text x="88" y="73" fill="#999999" font-family="Manrope, sans-serif" font-size="{28 * scale:g}" font-weight="400">@REALalphas</text>
 </svg>
 '''
 

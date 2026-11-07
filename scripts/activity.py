@@ -161,11 +161,23 @@ text{{font-family:Manrope,sans-serif}}.digits{{font-family:Pliant,Manrope,sans-s
         svg.append(f'<path d="{contour(x, y, width, height, radius)}" fill="{THEME[fill]}"/>')
         svg.append(f'<path d="{contour(x + .75, y + .75, width - 1.5, height - 1.5, radius - .75)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>')
 
-    def icon(name, x, y, size=48, color="muted"):
+    def icon(name, right, center_y, size=34, color="muted", top=None):
         import xml.etree.ElementTree as ET
         root = ET.parse(ASSETS / "icons" / f"{name}.svg").getroot()
         shapes = "".join(ET.tostring(child, encoding="unicode") for child in root)
-        svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
+        # Geometric bounds of the actual Lucide paths, excluding the stroke.
+        bounds = {"clock-3": (2, 2, 20, 20),
+                  "star": (1.9982, 2.0001, 20.0018, 19.0721),
+                  "heart": (2, 3.9838, 20.0001, 17.0158)}
+        bx, by, width, height = bounds[name]
+        scale, stroke = size / 24, 1.875
+        x = right - (bx + width + stroke / 2) * scale
+        y = center_y - (by + height / 2) * scale
+        if top is not None:
+            y = top - (by - stroke / 2) * scale
+        y -= 2 / .5925
+        x += 1 / .5925
+        svg.append(f'<g transform="translate({x:.3f} {y:.3f}) scale({scale})" fill="none" stroke="{THEME[color]}" stroke-width="{stroke}" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
 
     text_metrics = json.loads((ASSETS / "fonts/Manrope-text-metrics.json").read_text())
     digit_metrics = json.loads((ASSETS / "fonts/Pliant-digits-metrics.json").read_text())
@@ -206,7 +218,7 @@ text{{font-family:Manrope,sans-serif}}.digits{{font-family:Pliant,Manrope,sans-s
         panel(40, y, 453.333333, height)
         ink_label(64, y + 24, title, 28, "muted")
         title_height = measure(title, 28)["height"]
-        icon(icon_name, 435.333333, round(y + 24 + title_height / 2 - 17, 3), 34)
+        icon(icon_name, 469.333333, y + 24 + title_height / 2, top=y + 24)
 
     # A fixed content inset and a compact two-line body, without stretched gaps.
     commit_y, commit_height = 88, 160
@@ -342,8 +354,9 @@ text{{font-family:Manrope,sans-serif}}.digits{{font-family:Pliant,Manrope,sans-s
     stack_top = avatar_y + (72 - caption_height - 12 - name_height) / 2
     follower_text_x = 160 - 2 / .5925
     # README displays 533.333 SVG units at 316px: one visible pixel is 1/0.5925 units.
-    ink_label(follower_text_x, stack_top - 2 / .5925, caption, 28, "muted")
-    icon("heart", 435.333333, round(stack_top + caption_height / 2 - 17, 3), 34)
+    caption_top = stack_top - 2 / .5925
+    ink_label(follower_text_x, caption_top, caption, 28, "muted")
+    icon("heart", 469.333333, caption_top + caption_height / 2, top=follower_y + 24)
     if person:
         svg.append(f'<a xlink:href="{escape(person["html_url"], quote=True)}">')
         outline = contour(64, avatar_y, 72, 72, 24)
