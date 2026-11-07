@@ -126,7 +126,7 @@ def render(data):
 
     svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="533.333333" height="665" viewBox="0 0 533.333333 665" role="img" aria-labelledby="title desc">
 <title id="title">Meanwhile · AlphaS</title>
-<desc id="desc">Time since last commit, stars received versus given, latest starred repository and a GitHub neighbor. Updated hourly.</desc>
+<desc id="desc">Time since last commit, stars received versus given, latest starred repository and the latest follower. Updated hourly.</desc>
 <style>
 @font-face{{font-family:Manrope;src:url(data:font/woff2;base64,{font('Manrope-latin.woff2')});font-weight:200 800}}
 @font-face{{font-family:Noto;src:url(data:font/woff2;base64,{font('NotoSans-latin.woff2')});font-weight:100 900}}
@@ -251,7 +251,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
 
     # A plain cropped avatar, without the profile component's frame or inset.
     person = data["neighbor"]
-    label(144, 575, "New neighbor" if data["detected"] else "Neighbor", color="muted")
+    label(144, 575, "Latest follower", color="muted")
     if person:
         svg.append(f'<a xlink:href="{escape(person["html_url"], quote=True)}">')
         outline = contour(40, 544, 80, 80, 32)
@@ -266,7 +266,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     (ROOT / "README.md").write_text('''<img src="assets/profile.svg" width="800" alt="AlphaS · @REALalphas" />
 
 <p>
-<img src="assets/activity.svg" width="316" alt="Meanwhile: last commit, stars received versus given, latest find and GitHub neighbor" />&nbsp;&nbsp;<img src="assets/languages.svg" width="474" alt="Languages %" />
+<img src="assets/activity.svg" width="316" alt="Meanwhile: last commit, stars received versus given, latest find and latest follower" />&nbsp;&nbsp;<img src="assets/languages.svg" width="474" alt="Languages %" />
 </p>
 ''', encoding="utf-8")
 
