@@ -27,6 +27,13 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      - name: Restore follower state
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/profile/activity-state.json
+          key: profile-followers-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            profile-followers-v1-${{ github.ref }}-
       - name: Generate language card
         env:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
@@ -35,11 +42,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
         run: python scripts/activity.py
+      - name: Save follower state
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/profile/activity-state.json
+          key: profile-followers-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Commit updated card
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md assets/languages.svg assets/activity.svg assets/activity-state.json
+          git add README.md assets/languages.svg assets/activity.svg
           if ! git diff --cached --quiet; then
             git commit -m "Update profile widgets"
             git push

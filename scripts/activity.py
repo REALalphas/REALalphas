@@ -14,6 +14,7 @@ from languages import saturate, shift_hue
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
+STATE_PATH = ROOT / ".cache" / "profile" / "activity-state.json"
 LOGIN = "REALalphas"
 
 
@@ -93,7 +94,7 @@ def collect():
         if len(batch) < 100:
             break
         page += 1
-    state_path = ASSETS / "activity-state.json"
+    state_path = STATE_PATH
     previous = json.loads(state_path.read_text()) if state_path.exists() else None
     known = set(previous["followers"]) if previous else set()
     newcomers = [person for person in followers if person["id"] not in known] if previous else []
@@ -273,7 +274,10 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
 def main():
     data = collect()
     render(data)
-    (ASSETS / "activity-state.json").write_text(json.dumps(data["state"], indent=2) + "\n")
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temporary = STATE_PATH.with_suffix(".tmp")
+    temporary.write_text(json.dumps(data["state"], indent=2) + "\n")
+    temporary.replace(STATE_PATH)
 
 
 if __name__ == "__main__":
