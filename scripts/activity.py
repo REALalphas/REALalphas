@@ -150,14 +150,14 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         import xml.etree.ElementTree as ET
         root = ET.parse(ASSETS / "icons" / f"{name}.svg").getroot()
         shapes = "".join(ET.tostring(child, encoding="unicode") for child in root)
-        svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
+        svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
 
     label(40, 58, "Meanwhile", 28, "text")
     # All cards use the same header, 24-unit inset, and 72-unit content row.
     def activity_card(y, title, icon_name):
         panel(40, y, 453.333333, 168)
         label(64, y + 44, title, 28, color="muted")
-        icon(icon_name, 435.333333, y + 15, 34)
+        icon(icon_name, 435.333333, y + 17, 34)
 
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
     activity_card(88, "Last commit", "clock-3")
