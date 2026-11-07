@@ -1358,7 +1358,7 @@ def render_card(rows, total):
             f'<text x="{number_x:.3f}" y="{number_y:.3f}" font-family="{number_font}, sans-serif" style="{width_style}" font-size="{number_size:.3f}" font-weight="{number_weight}" fill="#ffffff" fill-opacity="0.6">{label}</text>',
             f'<path d="{contour(x, y, width, tile_height, 32)}" fill="#ffffff" filter="url(#acrylic-noise)" opacity="0.12"/>',
             f'<path d="{contour(x + .75, y + .75, width - 1.5, tile_height - 1.5, 31.25)}" fill="none" stroke="#999999" stroke-opacity="0.266667" stroke-width="1.5"/>',
-            f'<text x="{x + 20}" y="{y + 48}" font-size="28" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
+            f'<text x="{x + 20}" y="{y + 40}" font-size="28" font-weight="500" fill="#ffffff" fill-opacity="0.72">{escape(display_name)}</text>',
         ])
     svg.extend(['</g>', '</svg>'])
     return "\n".join(svg) + "\n"
