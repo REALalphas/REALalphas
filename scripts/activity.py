@@ -224,7 +224,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         outline = contour(64, 528, 72, 72, 24)
         svg.append(f'<defs><clipPath id="avatar"><path d="{outline}"/></clipPath></defs>')
         svg.append(f'<image x="64" y="528" width="72" height="72" clip-path="url(#avatar)" xlink:href="{data["avatar"]}"/>')
-        label(160, 575, "@" + short(person["login"], 18), color="text")
+        label(160, 575, "@" + short(person["login"], 18), color="secondary")
         svg.append('</a>')
     else:
         label(64, 575, "Room for one more")
