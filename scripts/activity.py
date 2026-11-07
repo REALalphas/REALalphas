@@ -153,28 +153,21 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
 
     label(40, 58, "Meanwhile", 28, "text")
-    # Three equally sized cards share 24-unit inner insets and 16-unit gaps.
+    # All cards use the same header, 24-unit inset, and 72-unit content row.
+    def activity_card(y, title, icon_name):
+        panel(40, y, 453.333333, 168)
+        label(64, y + 44, title, 28, color="muted")
+        icon(icon_name, 429.333333, y + 20, 40)
+
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
-    panel(40, 88, 453.333333, 168)
-    label(64, 132, "Last commit", 28, color="muted")
-    icon("git-commit-horizontal", 429.333333, 108, 40)
-    parts = stamp.split(" ", 1)
-    if parts[0].isdigit():
-        value = parts[0]
-        digit_width = 64 + max(0, len(value) - 1) * 40
-        panel(64, 160, digit_width, 72, 24, "navigation")
-        number(64 + digit_width / 2, 218, value, 64, "middle")
-        label(64 + digit_width + 24, 207, parts[1])
-    else:
-        label(64, 207, stamp)
+    activity_card(88, "Last commit", "clock-3")
+    label(64, 207, stamp)
 
     # One two-tone surface: segment widths encode the actual received/given ratio.
     received, given = data["received"], data["given"]
     ratio = received / (received + given) if received + given else .5
     split = 64 + 405.333333 * ratio
-    panel(40, 272, 453.333333, 168)
-    icon("star", 429.333333, 292, 40)
-    label(64, 316, "Stars", 28, color="muted")
+    activity_card(272, "Stars", "star")
     svg.append(f'<title>Stars: {received} received, {given} given</title>')
     svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(64, 344, 405.333333, 72, 24)}"/></clipPath></defs>')
     svg.append('<defs><filter id="stars-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>')
@@ -225,18 +218,16 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
             centered_total(457.333333, given, "end")
 
     person = data["neighbor"]
-    panel(40, 456, 453.333333, 168)
-    label(64, 500, "Latest follower", 28, color="muted")
-    icon("user-round-plus", 429.333333, 476, 40)
+    activity_card(456, "Latest follower", "heart")
     if person:
         svg.append(f'<a xlink:href="{escape(person["html_url"], quote=True)}">')
-        outline = contour(64, 528, 64, 64, 24)
+        outline = contour(64, 528, 72, 72, 24)
         svg.append(f'<defs><clipPath id="avatar"><path d="{outline}"/></clipPath></defs>')
-        svg.append(f'<image x="64" y="528" width="64" height="64" clip-path="url(#avatar)" xlink:href="{data["avatar"]}"/>')
-        label(152, 573, "@" + short(person["login"], 18), color="text")
+        svg.append(f'<image x="64" y="528" width="72" height="72" clip-path="url(#avatar)" xlink:href="{data["avatar"]}"/>')
+        label(160, 575, "@" + short(person["login"], 18), color="text")
         svg.append('</a>')
     else:
-        label(64, 573, "Room for one more")
+        label(64, 575, "Room for one more")
     svg.append('</svg>')
     (ASSETS / "activity.svg").write_text("\n".join(svg) + "\n", encoding="utf-8")
     (ROOT / "README.md").write_text('''<img src="assets/profile.svg" width="800" alt="AlphaS · @REALalphas" />
