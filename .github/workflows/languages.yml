@@ -5,11 +5,14 @@ on:
     - cron: "17 * * * *"
   workflow_dispatch:
   push:
-    branches: [main, master]
+    branches: [main, master, feat/profile-activity-widgets]
     paths:
       - scripts/languages.py
       - scripts/activity.py
+      - scripts/profile.py
       - scripts/svg_geometry.py
+      - assets/logo.svg
+      - assets/fonts/**
       - .github/workflows/languages.yml
 
 permissions:
@@ -27,6 +30,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      - name: Generate profile header
+        run: python scripts/profile.py
       - name: Restore follower state
         uses: actions/cache/restore@v5
         with:
@@ -51,8 +56,11 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md assets/languages.svg assets/activity.svg
+          git add README.md assets/profile.svg assets/languages.svg assets/activity.svg
           if ! git diff --cached --quiet; then
+            git diff --cached --stat
             git commit -m "Update profile widgets"
             git push
+          else
+            echo 'All generated files are up to date; no commit needed.'
           fi

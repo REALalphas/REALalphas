@@ -48,7 +48,10 @@ def main():
     if remaining:
         rows.append(("Other", remaining))
     destination = Path(__file__).resolve().parent.parent / "assets/languages.svg"
-    destination.write_text(render_card(rows, total), encoding="utf-8")
+    svg = render_card(rows, total)
+    changed = not destination.exists() or destination.read_text(encoding="utf-8") != svg
+    destination.write_text(svg, encoding="utf-8")
+    print(f"languages.svg: {'updated' if changed else 'unchanged'}")
 
 
 # GitHub Linguist palette: https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml

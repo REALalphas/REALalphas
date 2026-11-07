@@ -366,11 +366,15 @@ text{{font-family:Manrope,sans-serif}}.digits{{font-family:Pliant,Manrope,sans-s
 
 def main():
     data = collect()
+    destination = ASSETS / "activity.svg"
+    before = destination.read_bytes() if destination.exists() else None
     render(data)
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     temporary = STATE_PATH.with_suffix(".tmp")
     temporary.write_text(json.dumps(data["state"], indent=2) + "\n")
     temporary.replace(STATE_PATH)
+    changed = before != destination.read_bytes()
+    print(f"activity.svg: {'updated' if changed else 'unchanged'}")
 
 
 if __name__ == "__main__":
