@@ -1,8 +1,10 @@
-"""Generate linked profile widgets. Only public repository details are rendered."""
+"""Generate profile widgets, masking private repository names before rendering."""
 
 import base64
 import json
 import os
+import random
+import string
 from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
@@ -53,6 +55,16 @@ def short(value, limit):
     return value if len(value) <= limit else value[:limit - 1].rstrip() + "…"
 
 
+def repository_preview(repo):
+    """Never pass a private URL or the hidden name suffix to the SVG renderer."""
+    if repo["private"]:
+        name = repo["name"]
+        character = name[2:3] or name[-1:] or "•"
+        return {"private": True, "label": repo["owner"]["login"] + "/" + name[:2],
+                "tail": character + character.lower() * 3 + "".join(random.choice(string.ascii_lowercase) for _ in range(2))}
+    return {"private": False, "label": repo["full_name"], "url": repo["html_url"]}
+
+
 def avatar_data(url):
     parsed = urlparse(url)
     if parsed.scheme != "https" or parsed.hostname != "avatars.githubusercontent.com":
@@ -84,6 +96,10 @@ def collect():
         cursor = repos["pageInfo"]["endCursor"]
     commits = api("/search/commits?" + urlencode({"q": f"author:{LOGIN}", "sort": "author-date", "order": "desc", "per_page": 1}))
     commit_date = commits["items"][0]["commit"]["author"]["date"] if commits["items"] else None
+    repository = None
+    if commits["items"]:
+        full_name = commits["items"][0]["repository"]["full_name"]
+        repository = repository_preview(api("/repos/" + full_name))
     followers, page = [], 1
     while True:
         batch = api(f"/users/{LOGIN}/followers?per_page=100&page={page}")
@@ -102,7 +118,7 @@ def collect():
         neighbor = followers[-1]
     avatar = avatar_data(neighbor["avatar_url"]) if neighbor else None
     state = {"followers": [person["id"] for person in followers], "neighbor_id": neighbor_id if detected else None}
-    return {"commit_date": commit_date, "received": received, "given": given,
+    return {"commit_date": commit_date, "repository": repository, "received": received, "given": given,
             "neighbor": neighbor, "detected": detected,
             "avatar": avatar, "state": state}
 
@@ -125,10 +141,9 @@ def render(data):
 <title id="title">Meanwhile · AlphaS</title>
 <desc id="desc">Time since last commit, stars received versus given and the latest follower. Updated hourly.</desc>
 <style>
-@font-face{{font-family:Manrope;src:url(data:font/woff2;base64,{font('Manrope-latin.woff2')});font-weight:200 800}}
-@font-face{{font-family:Noto;src:url(data:font/woff2;base64,{font('NotoSans-latin.woff2')});font-weight:100 900}}
+@font-face{{font-family:Manrope;src:url(data:font/ttf;base64,{font('Manrope-Medium.ttf')});font-weight:500}}
 @font-face{{font-family:Pliant;src:url(data:font/woff;base64,{font('Pliant-digits.woff')});font-weight:600}}
-text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-weight:400}}.digits{{font-family:Pliant,sans-serif;font-weight:600;font-stretch:125%;font-variation-settings:'wdth' 125,'wght' 600}}
+text{{font-family:Manrope,sans-serif}}.digits{{font-family:Pliant,Manrope,sans-serif;font-weight:600;font-stretch:125%;font-variation-settings:'wdth' 125,'wght' 600}}
 </style>
 <path d="{contour(0, 0, 533.333333, 665, 40)}" fill="#222222"/>
 <path d="{contour(.75, .75, 531.833333, 663.5, 39.25)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>
@@ -152,82 +167,193 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
         shapes = "".join(ET.tostring(child, encoding="unicode") for child in root)
         svg.append(f'<g transform="translate({x} {y}) scale({size / 24})" fill="none" stroke="{THEME[color]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">{shapes}</g>')
 
+    text_metrics = json.loads((ASSETS / "fonts/Manrope-text-metrics.json").read_text())
+    digit_metrics = json.loads((ASSETS / "fonts/Pliant-digits-metrics.json").read_text())
+
+    def measure(value, size=32):
+        advance = 0
+        left, right, bottom, top = float("inf"), float("-inf"), 0, 0
+        for character in value:
+            glyph = text_metrics.get(character, text_metrics["M"])
+            left = min(left, advance + glyph["left"] * size)
+            right = max(right, advance + glyph["right"] * size)
+            bottom = min(bottom, glyph["bottom"] * size)
+            top = max(top, glyph["top"] * size)
+            advance += glyph["advance"] * size
+        return {"left": min(left, advance), "right": max(right, 0), "top": top,
+                "bottom": bottom, "height": top - bottom, "advance": advance}
+
+    def fit_text(value, width=405.333333, size=32):
+        if measure(value, size)["right"] - measure(value, size)["left"] <= width:
+            return value
+        while value and measure(value.rstrip() + "…", size)["right"] > width:
+            value = value[:-1]
+        return value.rstrip() + "…"
+
+    def ink_label(x, top, value, size=32, color="secondary"):
+        bounds = measure(value, size)
+        label(round(x - bounds["left"], 3), round(top + bounds["top"], 3),
+              value, size, color)
+
+    def centered_label(x, center_y, value, size=32):
+        bounds = measure(value, size)
+        label(round(x - bounds["left"], 3),
+              round(center_y + (bounds["top"] + bounds["bottom"]) / 2, 3), value, size)
+
     label(40, 58, "Meanwhile", 28, "text")
-    # All cards use the same header, 24-unit inset, and 72-unit content row.
-    def activity_card(y, title, icon_name):
-        panel(40, y, 453.333333, 168)
-        label(64, y + 44, title, 28, color="muted")
-        icon(icon_name, 435.333333, y + 17, 34)
 
+    def activity_card(y, height, title, icon_name):
+        panel(40, y, 453.333333, height)
+        ink_label(64, y + 24, title, 28, "muted")
+        title_height = measure(title, 28)["height"]
+        icon(icon_name, 435.333333, round(y + 24 + title_height / 2 - 17, 3), 34)
+
+    # A fixed content inset and a compact two-line body, without stretched gaps.
+    commit_y, commit_height = 88, 160
+    activity_card(commit_y, commit_height, "Last commit", "clock-3")
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
-    activity_card(88, "Last commit", "clock-3")
-    label(64, 207, stamp)
+    repository = data.get("repository")
+    repo_text = ""
+    if repository:
+        repo_text = (repository["label"] + repository["tail"] if repository["private"]
+                     else fit_text(repository["label"], size=28))
+    commit_font_size = 28
+    time_top = commit_y + 72
+    ink_label(64, time_top, stamp, commit_font_size)
+    if repository:
+        repo_top = time_top + measure(stamp, commit_font_size)["height"] + 12
+        repo_baseline = repo_top + measure(repo_text, commit_font_size)["top"]
+        if repository["private"]:
+            prefix, tail = repository["label"], repository["tail"]
+            owner, visible = prefix.rsplit("/", 1)
+            sharp_prefix = owner + "/" + visible[:1]
+            blurred = visible[1:] + tail
+            x = 64 - measure(repo_text, commit_font_size)["left"]
+            label(round(x, 3), round(repo_baseline, 3), sharp_prefix, commit_font_size)
+            x += measure(sharp_prefix, commit_font_size)["advance"]
+            for index, character in enumerate(blurred):
+                blur = [1.1, 2.3, 3.6, 4.5, 4.9, 5.1, 5.5][index]
+                svg.append(f'<defs><filter id="repo-blur-{index}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="{blur}"/></filter></defs>')
+                svg.append(f'<text x="{x:.3f}" y="{repo_baseline:.3f}" font-size="{commit_font_size}" font-weight="500" fill="#dddddd" filter="url(#repo-blur-{index})">{escape(character)}</text>')
+                x += measure(character, commit_font_size)["advance"]
+        else:
+            svg.append(f'<a xlink:href="{escape(repository["url"], quote=True)}">')
+            ink_label(64, repo_top, repo_text, commit_font_size)
+            svg.append('</a>')
 
-    # One two-tone surface: segment widths encode the actual received/given ratio.
     received, given = data["received"], data["given"]
     ratio = received / (received + given) if received + given else .5
-    split = 64 + 405.333333 * ratio
-    activity_card(272, "Stars", "star")
+    star_y, star_height = 264, 224
+    bar_x, bar_y, bar_width, bar_height = 64, 336, 405.333333, 128
+    split = bar_x + bar_width * ratio
+    activity_card(star_y, star_height, "Stars", "star")
     svg.append(f'<title>Stars: {received} received, {given} given</title>')
-    svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(64, 344, 405.333333, 72, 24)}"/></clipPath></defs>')
+    svg.append(f'<defs><clipPath id="stars-shape"><path d="{contour(bar_x, bar_y, bar_width, bar_height, 24)}"/></clipPath></defs>')
     svg.append('<defs><filter id="stars-noise" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComposite in2="SourceGraphic" operator="in"/></filter></defs>')
     svg.append('<g clip-path="url(#stars-shape)">')
     for key, x, width, color in [
-        ("received", 64, 405.333333 * ratio, "#f1e05a"),
-        ("given", split, 405.333333 * (1 - ratio), "#663399"),
+        ("received", bar_x, bar_width * ratio, "#f1e05a"),
+        ("given", split, bar_width * (1 - ratio), "#663399"),
     ]:
-        # Same two radial light sources and acrylic grain as the language tiles.
         bright = "#" + "".join(f"{round(int(color[i:i + 2], 16) * .8 + 255 * .2):02x}" for i in (1, 3, 5))
         color, bright = saturate(color), saturate(bright)
         counter = shift_hue(color, -20, saturation_scale=1.2, lightness_scale=.9)
-        svg.append(f'<defs><radialGradient id="stars-{key}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="308" r="760"><stop offset="0" stop-color="{bright}" stop-opacity=".75"/><stop offset="1" stop-color="{color}" stop-opacity=".07"/></radialGradient><radialGradient id="stars-{key}-counter" gradientUnits="userSpaceOnUse" cx="{x - 50}" cy="446" r="300"><stop offset="0" stop-color="{counter}" stop-opacity=".5"/><stop offset="1" stop-color="{counter}" stop-opacity="0"/></radialGradient></defs>')
+        svg.append(f'<defs><radialGradient id="stars-{key}" gradientUnits="userSpaceOnUse" cx="{x + width * 1.5}" cy="{bar_y - bar_height * .5}" r="760"><stop offset="0" stop-color="{bright}" stop-opacity=".75"/><stop offset="1" stop-color="{color}" stop-opacity=".07"/></radialGradient><radialGradient id="stars-{key}-counter" gradientUnits="userSpaceOnUse" cx="{x - 50}" cy="{bar_y + bar_height + 30}" r="300"><stop offset="0" stop-color="{counter}" stop-opacity=".5"/><stop offset="1" stop-color="{counter}" stop-opacity="0"/></radialGradient></defs>')
         for fill in [f"url(#stars-{key})", f"url(#stars-{key}-counter)"]:
-            svg.append(f'<rect x="{x:.3f}" y="344" width="{width:.3f}" height="72" fill="{fill}"/>')
-        svg.append(f'<rect x="{x:.3f}" y="344" width="{width:.3f}" height="72" fill="#ffffff" filter="url(#stars-noise)" opacity=".12"/>')
+            svg.append(f'<rect x="{x:.3f}" y="{bar_y}" width="{width:.3f}" height="{bar_height}" fill="{fill}"/>')
+        svg.append(f'<rect x="{x:.3f}" y="{bar_y}" width="{width:.3f}" height="{bar_height}" fill="#ffffff" filter="url(#stars-noise)" opacity=".12"/>')
     svg.append('</g>')
 
-    metrics = json.loads((ASSETS / "fonts/Pliant-digits-metrics.json").read_text())
+    def counter_bounds(value, variant):
+        glyphs = digit_metrics["variants"]["600"][str(variant)]
+        units = digit_metrics["unitsPerEm"]
+        advance, left, right, bottom, top = 0, float("inf"), float("-inf"), float("inf"), float("-inf")
+        for character in value:
+            if character in glyphs:
+                glyph = glyphs[character]
+                x1, y1, x2, y2 = glyph["bounds"]
+                step = glyph["advance"]
+            else:
+                glyph = text_metrics.get(character, text_metrics["M"])
+                x1, y1, x2, y2 = [glyph[key] * units for key in ["left", "bottom", "right", "top"]]
+                step = glyph["advance"] * units
+            left, right = min(left, advance + x1), max(right, advance + x2)
+            bottom, top = min(bottom, y1), max(top, y2)
+            advance += step
+        return left, bottom, right, top
 
-    def centered_total(x, value, anchor="start"):
-        value = compact(value)
-        glyphs = metrics["variants"]["600"]["125"]
-        if all(character in glyphs for character in value):
-            bottom = min(glyphs[c]["bounds"][1] for c in value)
-            top = max(glyphs[c]["bounds"][3] for c in value)
-            baseline = 380 + (top + bottom) * 44 / (2 * metrics["unitsPerEm"])
-            number(x, round(baseline, 3), value, 44, anchor)
+    def star_segment(x, width, value, caption, left_side):
+        # Respect the caption and gap before fitting the largest possible digit ink.
+        caption_bounds = measure(caption, 22)
+        caption_width = caption_bounds["right"] - caption_bounds["left"]
+        padding, content_gap = 20, 20
+        stacked = width < bar_width * .4
+        available = width - 2 * padding
+        available_height = bar_height - 2 * padding
+        if stacked:
+            available_height -= caption_bounds["height"] + content_gap
         else:
-            svg.append(f'<text class="digits" x="{x}" y="380" dominant-baseline="central" font-size="44" text-anchor="{anchor}" fill="#ffffff" fill-opacity=".6">{escape(value)}</text>')
+            available -= content_gap + caption_width
+        if available < 24 or (stacked and caption_width > available):
+            return False
+        fitted = None
+        for variant in range(125, 99, -1):
+            bounds = counter_bounds(compact(value), variant)
+            left, bottom, right, top = bounds
+            scale = available_height / (top - bottom)
+            fitted = (variant, bounds, scale)
+            if (right - left) * scale <= available:
+                break
+        variant, (left, bottom, right, top), scale = fitted
+        scale = min(scale, available / (right - left))
+        size = scale * digit_metrics["unitsPerEm"]
+        number_height = (top - bottom) * scale
+        if stacked:
+            group_height = number_height + content_gap + caption_bounds["height"]
+            group_top = bar_y + (bar_height - group_height) / 2
+            baseline = group_top + top * scale
+            number_x = x + padding - left * scale if left_side else x + width - padding - right * scale
+            caption_x = (x + padding if left_side else x + width - padding - caption_width) - caption_bounds["left"]
+            caption_y = group_top + number_height + content_gap + caption_bounds["top"]
+        else:
+            baseline = bar_y + bar_height / 2 + (top + bottom) * scale / 2
+            number_x = x + padding - left * scale if left_side else x + width - padding - right * scale
+            caption_x = x + width - padding - caption_width if left_side else x + padding
+            caption_x -= caption_bounds["left"]
+            caption_y = bar_y + bar_height / 2 + (caption_bounds["top"] + caption_bounds["bottom"]) / 2
+        svg.append(f'<text class="digits" x="{number_x:.3f}" y="{baseline:.3f}" font-size="{size:.3f}" style="font-stretch:{variant}%;font-variation-settings: &apos;wdth&apos; {variant}, &apos;wght&apos; 600" fill="#ffffff" fill-opacity=".6">{escape(compact(value))}</text>')
+        svg.append(f'<text x="{caption_x:.3f}" y="{caption_y:.3f}" font-size="22" font-weight="500" fill="#ffffff" fill-opacity=".38">{caption}</text>')
+        return True
 
-    def star_label(x, value, anchor="start"):
-        svg.append(f'<text x="{x:.3f}" y="380" dy=".35em" font-size="32" font-weight="500" text-anchor="{anchor}" fill="#ffffff" fill-opacity=".38">{value}</text>')
+    shown_left = star_segment(bar_x, bar_width * ratio, received, "Got", True)
+    shown_right = star_segment(split, bar_width * (1 - ratio), given, "Given", False)
+    svg.append(f'<path d="{contour(bar_x + .75, bar_y + .75, bar_width - 1.5, bar_height - 1.5, 23.25)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>')
+    if not shown_left or not shown_right:
+        # A near-zero segment cannot hold a number; retain both totals in the header.
+        label(405.333333, 308, f"{compact(received)} / {compact(given)}", 28, anchor="end")
 
-    if min(ratio, 1 - ratio) >= .25:
-        centered_total(76, received)
-        star_label(split - 12, "Got", "end")
-        star_label(split + 12, "Given")
-        centered_total(457.333333, given, "end")
-    else:
-        # Keep both totals legible when one proportional segment is very narrow.
-        label(405.333333, 316, f"Got {compact(received)} / Given {compact(given)}", anchor="end")
-        if ratio >= .25:
-            centered_total(76, received)
-            star_label(split - 12, "Got", "end")
-        if 1 - ratio >= .25:
-            star_label(split + 12, "Given")
-            centered_total(457.333333, given, "end")
-
+    # Compact row: the unchanged avatar anchors a vertically centered text stack.
+    follower_y, follower_height, avatar_y = 504, 120, 528
+    panel(40, follower_y, 453.333333, follower_height)
     person = data["neighbor"]
-    activity_card(456, "Latest follower", "heart")
+    caption = "Latest follower"
+    name = fit_text("@" + person["login"], 309.333333, size=28) if person else "Room for one more"
+    caption_height, name_height = measure(caption, 28)["height"], measure(name, 28)["height"]
+    stack_top = avatar_y + (72 - caption_height - 12 - name_height) / 2
+    follower_text_x = 160 - 2 / .5925
+    # README displays 533.333 SVG units at 316px: one visible pixel is 1/0.5925 units.
+    ink_label(follower_text_x, stack_top - 2 / .5925, caption, 28, "muted")
+    icon("heart", 435.333333, round(stack_top + caption_height / 2 - 17, 3), 34)
     if person:
         svg.append(f'<a xlink:href="{escape(person["html_url"], quote=True)}">')
-        outline = contour(64, 528, 72, 72, 24)
+        outline = contour(64, avatar_y, 72, 72, 24)
         svg.append(f'<defs><clipPath id="avatar"><path d="{outline}"/></clipPath></defs>')
-        svg.append(f'<image x="64" y="528" width="72" height="72" clip-path="url(#avatar)" xlink:href="{data["avatar"]}"/>')
-        label(160, 575, "@" + short(person["login"], 18), color="secondary")
+        svg.append(f'<image x="64" y="{avatar_y}" width="72" height="72" clip-path="url(#avatar)" xlink:href="{data["avatar"]}"/>')
+        svg.append(f'<path d="{contour(64.75, avatar_y + .75, 70.5, 70.5, 23.25)}" fill="none" stroke="#999999" stroke-opacity=".266667" stroke-width="1.5"/>')
+        ink_label(follower_text_x, stack_top + caption_height + 12, name, 28)
         svg.append('</a>')
     else:
-        label(64, 575, "Room for one more")
+        ink_label(follower_text_x, stack_top + caption_height + 12, name, 28)
     svg.append('</svg>')
     (ASSETS / "activity.svg").write_text("\n".join(svg) + "\n", encoding="utf-8")
     (ROOT / "README.md").write_text('''<img src="assets/profile.svg" width="800" alt="AlphaS · @REALalphas" />
