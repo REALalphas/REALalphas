@@ -157,7 +157,7 @@ text{{font-family:Manrope,sans-serif}}.body{{font-family:Noto,sans-serif;font-we
     def activity_card(y, title, icon_name):
         panel(40, y, 453.333333, 168)
         label(64, y + 44, title, 28, color="muted")
-        icon(icon_name, 441.333333, y + 18, 28)
+        icon(icon_name, 435.333333, y + 15, 34)
 
     stamp = ago(data["commit_date"]) if data["commit_date"] else "No commits yet"
     activity_card(88, "Last commit", "clock-3")
