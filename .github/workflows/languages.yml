@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Restore follower state
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .cache/profile/activity-state.json
           key: profile-followers-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
@@ -43,7 +43,7 @@ jobs:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
         run: python scripts/activity.py
       - name: Save follower state
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .cache/profile/activity-state.json
           key: profile-followers-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
