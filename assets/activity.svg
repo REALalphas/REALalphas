@@ -16,7 +16,7 @@ text{font-family:Manrope,sans-serif}.digits{font-family:Pliant,Manrope,sans-seri
 <g transform="translate(438.526 107.119) scale(1.4166666666666667)" fill="none" stroke="#999999" stroke-width="1.875" stroke-linecap="round" stroke-linejoin="round"><ns0:circle xmlns:ns0="http://www.w3.org/2000/svg" cx="12" cy="12" r="10" />
   <ns0:path xmlns:ns0="http://www.w3.org/2000/svg" d="M12 6v6h4" />
 </g>
-<text x="62.688" y="180.562" font-size="28" font-weight="500" text-anchor="start" fill="#dddddd">1 day ago</text>
+<text x="62.688" y="180.562" font-size="28" font-weight="500" text-anchor="start" fill="#dddddd">4 hours ago</text>
 <a xlink:href="https://github.com/REALalphas/yonix-up">
 <text x="62.25" y="221.0" font-size="28" font-weight="500" text-anchor="start" fill="#dddddd">REALalphas/yonix-up</text>
 </a>
